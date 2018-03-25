@@ -40,7 +40,7 @@ public class GroupView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_view);
-        mList = (RecyclerView) findViewById(R.id.list);
+        mList = (RecyclerView) findViewById(R.id.groupList);
         mList.setLayoutManager(new LinearLayoutManager(this));
 
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");

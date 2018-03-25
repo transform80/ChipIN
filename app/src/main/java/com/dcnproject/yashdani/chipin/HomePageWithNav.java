@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,22 +17,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomePageWithNav extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Button mButton;
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
     private FirebaseUser mUser;
     private SharedPreferences pref;
     private Context _context;
@@ -41,6 +51,13 @@ public class HomePageWithNav extends AppCompatActivity
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private TextView mWelcome;
+
+    private RecyclerView mList;
+    private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabase;
+    final List<String> groupList = new ArrayList<>();
+    int iterator = 0;
+    private String current_user;
+
 
     // Shared pref mode
     int PRIVATE_MODE = 0;
@@ -60,8 +77,20 @@ public class HomePageWithNav extends AppCompatActivity
 
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = pref.edit();
+
+        mList = (RecyclerView) findViewById(R.id.groupList);
+        mList.setLayoutManager(new LinearLayoutManager(this));
+
+        mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Groups");
+
+
+
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+        current_user = mUser.getEmail();
+
         mAuthListener = new FirebaseAuth.AuthStateListener(){
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth){
@@ -201,5 +230,101 @@ public class HomePageWithNav extends AppCompatActivity
     {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseRecyclerAdapter<CardsViewGroups , cardViewHolder> firebaserecycleradapter = new FirebaseRecyclerAdapter<CardsViewGroups, cardViewHolder>(
+                CardsViewGroups.class,
+                R.layout.list_row_view_group,
+                cardViewHolder.class,
+                mDatabaseGrpRef
+        ) {
+
+            @Override
+            protected void populateViewHolder(final cardViewHolder viewHolder, final CardsViewGroups model, int position) {
+
+                getGroups();
+                viewHolder.setName(model.getName());
+
+                mDatabaseGrpRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        showToast("Getting datasnapshot " + groupList.size());
+                        if(iterator < groupList.size()) {
+                            viewHolder.setName(dataSnapshot.child(groupList.get(iterator++)).child("Name").getValue().toString());
+
+
+                        }
+
+                    }
+
+
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
+
+
+
+
+            }
+        };
+        mList.setAdapter(firebaserecycleradapter);
+
+
+
+    }
+
+    public static class cardViewHolder extends RecyclerView.ViewHolder {
+        View mView;
+        TextView mGroup;
+
+
+        public cardViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+            mGroup = (TextView) mView.findViewById(R.id.groupNameEt);
+        }
+
+        public void setName(String name) {
+            TextView   mMember = (TextView) mView.findViewById(R.id.groupNameEt);
+            mMember.setText(name);
+
+        }
+
+
+    }
+
+
+
+    public void getGroups(){
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot groups: dataSnapshot.getChildren()){
+                    for(DataSnapshot users: groups.getChildren()){
+                        for(DataSnapshot emailid: users.getChildren()) {
+                            if (emailid.getValue() == current_user) {
+                                showToast("Group Found");
+                                groupList.add(dataSnapshot.getKey());
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
