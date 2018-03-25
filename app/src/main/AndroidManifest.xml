@@ -43,12 +43,15 @@
         <activity
             android:name=".GroupView"
             android:icon="@drawable/back"
-            android:label="Group Name"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddTransaction"
-            android:label="Group Name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:icon="@drawable/back"></activity>
+            android:label="Group Name" />
+        <activity
+            android:name=".AddTransaction"
+            android:icon="@drawable/back"
+            android:label="Group Name" />
+        <activity android:name=".ViewContactInGroup"
+            android:icon="@drawable/back"/>
+        <activity android:name=".AddMemberInGroup"
+            android:label="Add Members"></activity>
     </application>
 
 </manifest>

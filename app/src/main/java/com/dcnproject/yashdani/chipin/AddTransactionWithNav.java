@@ -54,7 +54,7 @@ public class AddTransactionWithNav extends AppCompatActivity
 
 
 
-        mSubmit=(Button) findViewById(R.id.submit_trans);
+        mSubmit= (Button) findViewById(R.id.submit_trans);
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

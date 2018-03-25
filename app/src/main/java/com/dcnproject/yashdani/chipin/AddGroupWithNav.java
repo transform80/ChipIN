@@ -117,6 +117,7 @@ public class AddGroupWithNav extends AppCompatActivity
             startActivity(settingIntent);
 
         } else if (id == R.id.nav_logout) {
+            mAuth.signOut();
             Intent logoutIntent = new Intent(AddGroupWithNav.this,LoginActivity.class);
             startActivity(logoutIntent);
             finish();

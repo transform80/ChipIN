@@ -133,8 +133,9 @@ public class HomePageWithNav extends AppCompatActivity
             startActivity(addtransIntent);
             finish();
         } else if (id == R.id.nav_logout) {
-            Intent logoutIntent = new Intent(HomePageWithNav.this,LoginActivity.class);
             mAuth.signOut();
+            Intent logoutIntent = new Intent(HomePageWithNav.this,LoginActivity.class);
+            startActivity(logoutIntent);
             finish();
         } else if (id == R.id.nav_settings) {
             Intent settingIntent = new Intent(HomePageWithNav.this,SettingsActivity.class);
