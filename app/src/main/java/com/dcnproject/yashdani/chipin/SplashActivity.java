@@ -3,7 +3,6 @@ package com.dcnproject.yashdani.chipin;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.TextView;
@@ -21,7 +20,7 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent splashIntent = new Intent(SplashActivity.this,LoginActivity.class);
+                Intent splashIntent = new Intent(SplashActivity.this,HomePageWithNav.class);
                 startActivity(splashIntent);
                 finish();
             }

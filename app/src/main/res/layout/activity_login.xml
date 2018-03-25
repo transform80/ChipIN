@@ -18,20 +18,20 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="260dp"
-            android:text="Username:"
+            android:text="E-mail:"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/loginEmailField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:ems="10"
-            android:hint="Enter Username"
+            android:hint="Enter E-mail"
 
             android:inputType="textPersonName"
             android:textColor="@color/colorBlack" />
@@ -67,7 +67,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/loginPasswordField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -79,7 +79,7 @@
             android:textColor="@color/colorBlack" />
 
         <Button
-            android:id="@+id/loginbutton"
+            android:id="@+id/loginButton"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="68dp"
