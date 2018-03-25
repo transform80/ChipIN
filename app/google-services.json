@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1018620265097",
+    "firebase_url": "https://chipin-7ae11.firebaseio.com",
+    "project_id": "chipin-7ae11",
+    "storage_bucket": "chipin-7ae11.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1018620265097:android:56083093e03e0a3b",
+        "android_client_info": {
+          "package_name": "com.dcnproject.yashdani.chipin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1018620265097-i18i12mdfp1im481g4dk4shnnd04dlbe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dcnproject.yashdani.chipin",
+            "certificate_hash": "a228a4c71da7f8b803ee793995b86be23994ce87"
+          }
+        },
+        {
+          "client_id": "1018620265097-aecc55r73uld4hnk1t29t5igm7jm2bbf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwD3nI83T0UEHmXO6ufjc5MrKFNC_WxGE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1018620265097-aecc55r73uld4hnk1t29t5igm7jm2bbf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

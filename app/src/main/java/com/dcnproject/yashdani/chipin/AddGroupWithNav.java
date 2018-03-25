@@ -139,6 +139,7 @@ public class AddGroupWithNav extends AppCompatActivity
     }
 
     public void addGroup(){
+        confirm.setEnabled(false);
 
         final int num = Integer.parseInt(numOfMembers.getText().toString());
         // Dynamically creates the various text fields for the entry of the participants name
@@ -172,23 +173,23 @@ public class AddGroupWithNav extends AppCompatActivity
                     strings[i] = allEds.get(i).getText().toString();
                 }
 
+
                 showToast("Button Clicked");
                 String gName = groupName.getText().toString(); // Gets the group name from the text field
                 String numP = numOfMembers.getText().toString(); // Gets the number of members in the group
                 int numM = Integer.parseInt(numP); // Returns int value of the number of participants
                 final DatabaseReference newGroup = mDatabaseGrpRef.push(); // Pushes the group into the database with a unique id
                 newGroup.child("Name").setValue(gName);
-                newGroup.child("Number of Members").setValue(numP);
+                newGroup.child("Number of Members").setValue(num);
                 for(int i = 0; i < numM; i++){
                     final String uName = strings[i];
 
                     // Receiving the UID of the user from the given name
-
+                    showToast("Getting UID");
                     mDatabaseUsrRef.orderByChild("email").equalTo(uName).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                             if(dataSnapshot.getKey() != null) {
-
                                 newGroup.child("Users").child(dataSnapshot.getKey()).setValue(uName);
                                 Intent intent = new Intent(AddGroupWithNav.this, HomePageWithNav.class);
                                 startActivity(intent);
@@ -238,4 +239,5 @@ public class AddGroupWithNav extends AppCompatActivity
 
 
     }
+
 }

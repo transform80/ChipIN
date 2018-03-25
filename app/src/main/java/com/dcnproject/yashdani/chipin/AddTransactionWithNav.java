@@ -153,7 +153,7 @@ public class AddTransactionWithNav extends AppCompatActivity
                     newTrans.child("Total Amount").setValue(amount);
                     newTrans.child("Payee").setValue(payeeNameValue);
                     newTrans.child("Payment Description").setValue(reason);
-                    SimpleDateFormat sdate = new SimpleDateFormat("dd/MM/yyyy-hh:mm:ss");
+                    SimpleDateFormat sdate = new SimpleDateFormat("dd/MM/yyyy");
                     String format = sdate.format(new Date());
                     newTrans.child("Time").setValue(format);
                     showToast("Transaction Succesfull");
@@ -205,6 +205,7 @@ public class AddTransactionWithNav extends AppCompatActivity
                     mDatabaseGrpRef.child(GUID).child("Users").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            payeeList.clear();
                             for(DataSnapshot payeeSnapshot : dataSnapshot.getChildren()){
                                 payeeList.add(payeeSnapshot.getValue().toString());
                                 payeeUIDList.add(payeeSnapshot.getKey());
@@ -314,10 +315,10 @@ public class AddTransactionWithNav extends AppCompatActivity
 
     public void startSplitting(String guid, String amount){
         DatabaseReference group = mDatabaseGrpRef.child(guid);
-        int num = Integer.parseInt(group.child("Number of Members").toString());
+        int num = payeeList.size();
         float total_amount = Float.parseFloat(amount);
         total_amount *= 100;
-        int temp_amount = Integer.parseInt(String.valueOf(total_amount));
+        int temp_amount = (int) total_amount;
         total_amount = temp_amount/100;
         final float payable_share = (total_amount/num);
         for(int i = 0; i <num; i++ ){
@@ -326,7 +327,9 @@ public class AddTransactionWithNav extends AppCompatActivity
                 mDatabaseUsrRef.child(payeeUIDList.get(i)).child("Balance").child(payeeUIDList.get(payeeIndex)).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        float balance_amount = (float) dataSnapshot.getValue();
+                        float balance_amount = 0;
+                        if(dataSnapshot.getValue() != null)
+                            balance_amount = (float) dataSnapshot.getValue();
                         balance_amount = balance_amount - payable_share;
                         mDatabaseUsrRef.child(payeeUIDList.get(finalI)).child("Balance").child(payeeUIDList.get(payeeIndex)).setValue(balance_amount);
                         balance_amount = -balance_amount;
