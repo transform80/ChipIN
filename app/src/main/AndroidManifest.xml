@@ -23,25 +23,27 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".GroupView" />
         <activity
             android:name=".HomePageWithNav"
-            android:label="@string/title_activity_home_page_with_nav"
+            android:label="Home Page"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".AddTransactionFromGroup" />
         <activity
             android:name=".AddTransactionWithNav"
-            android:label="@string/title_activity_add_transaction_with_nav"
+            android:label="Add Transaction"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddGroupWithNav"
-            android:label="@string/title_activity_add_group_with_nav"
+            android:label="Add Group"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SettingsWithNav"
-            android:label="@string/title_activity_settings_with_nav"
+            android:label="Settings"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".GroupViewWithNav"
+            android:label="Group Name"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

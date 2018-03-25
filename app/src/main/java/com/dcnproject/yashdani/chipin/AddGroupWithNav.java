@@ -72,13 +72,13 @@ public class AddGroupWithNav extends AppCompatActivity
         if (id == R.id.nav_group) {
 
         } else if (id == R.id.nav_transaction) {
-            Intent addgroupIntent = new Intent(AddGroupWithNav.this,AddTransactionWithNav.class);
-            startActivity(addgroupIntent);
+            Intent addtransIntent = new Intent(AddGroupWithNav.this,AddTransactionWithNav.class);
+            startActivity(addtransIntent);
             finish();
         } else if (id == R.id.nav_settings) {
             Intent settingIntent = new Intent(AddGroupWithNav.this,SettingsActivity.class);
             startActivity(settingIntent);
-            finish();
+
         } else if (id == R.id.nav_logout) {
             Intent logoutIntent = new Intent(AddGroupWithNav.this,LoginActivity.class);
             startActivity(logoutIntent);

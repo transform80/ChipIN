@@ -13,24 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
-public class HomePageWithNav extends AppCompatActivity
+public class GroupViewWithNav extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private Button mButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page_with_nav);
-        mButton=(Button) findViewById(R.id.button);
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent buttonIntent = new Intent(HomePageWithNav.this,GroupViewWithNav.class);
-                startActivity(buttonIntent);
-                finish();
-            }
-        });
+        setContentView(R.layout.activity_group_view_with_nav);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -78,23 +68,25 @@ public class HomePageWithNav extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_group) {
-            Intent addgroupIntent = new Intent(HomePageWithNav.this,AddGroupWithNav.class);
+            Intent addgroupIntent = new Intent(GroupViewWithNav.this,AddGroupWithNav.class);
             startActivity(addgroupIntent);
             finish();
         } else if (id == R.id.nav_transaction) {
-            Intent addtransIntent = new Intent(HomePageWithNav.this, AddTransactionWithNav.class);
+            Intent addtransIntent = new Intent(GroupViewWithNav.this,AddTransactionWithNav.class);
             startActivity(addtransIntent);
             finish();
-        } else if (id == R.id.nav_logout) {
-            Intent logoutIntent = new Intent(HomePageWithNav.this,LoginActivity.class);
-            startActivity(logoutIntent);
-            finish();
         } else if (id == R.id.nav_settings) {
-            Intent settingIntent = new Intent(HomePageWithNav.this,SettingsActivity.class);
+            Intent settingIntent = new Intent(GroupViewWithNav.this,SettingsActivity.class);
             startActivity(settingIntent);
 
+        } else if (id == R.id.nav_logout) {
+            Intent logoutIntent = new Intent(GroupViewWithNav.this,LoginActivity.class);
+            startActivity(logoutIntent);
+            finish();
         } else if (id == R.id.nav_home) {
-
+            Intent homeIntent = new Intent(GroupViewWithNav.this,HomePageWithNav.class);
+            startActivity(homeIntent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

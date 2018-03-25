@@ -142,7 +142,7 @@ public class AddTransactionWithNav extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             Intent settingIntent = new Intent(AddTransactionWithNav.this,SettingsActivity.class);
             startActivity(settingIntent);
-            finish();
+
         } else if (id == R.id.nav_logout) {
             Intent logoutIntent = new Intent(AddTransactionWithNav.this,LoginActivity.class);
             startActivity(logoutIntent);
