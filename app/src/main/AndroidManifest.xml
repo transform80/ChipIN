@@ -41,9 +41,14 @@
             android:label="Settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".GroupViewWithNav"
+            android:name=".GroupView"
+            android:icon="@drawable/back"
             android:label="Group Name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AddTransaction"
+            android:label="Group Name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:icon="@drawable/back"></activity>
     </application>
 
 </manifest>

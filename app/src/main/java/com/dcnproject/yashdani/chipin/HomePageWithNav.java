@@ -52,7 +52,7 @@ public class HomePageWithNav extends AppCompatActivity
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent buttonIntent = new Intent(HomePageWithNav.this,GroupViewWithNav.class);
+                Intent buttonIntent = new Intent(HomePageWithNav.this,GroupView.class);
                 startActivity(buttonIntent);
                 finish();
             }
