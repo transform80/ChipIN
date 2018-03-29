@@ -14,20 +14,34 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewContactInGroup extends AppCompatActivity {
 
     private List<ContactCards> contactCardsList = new ArrayList<>();
+    List<String> Users_list = new ArrayList<>();
+    private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabaseTransRef;
+    private String GUID;
     private RecyclerView recyclerView;
     private ContactCardsAdapter mContactAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_contact_in_group);
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        GUID = getIntent().getStringExtra("GUID");
+        /*Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setActionBar(mToolbar);
+*/
+        mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
+        mDatabaseTransRef = FirebaseDatabase.getInstance().getReference().child("Transaction");
 
 
 
@@ -78,6 +92,38 @@ public class ViewContactInGroup extends AppCompatActivity {
 
 
     private void prepareContactData() {
+        mDatabaseGrpRef.child(GUID).child("Users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot users : dataSnapshot.getChildren())
+                    Users_list.add(users.getKey());
+                for (int i = 0; i < Users_list.size(); i++) {
+                    mDatabaseUsrRef.child(Users_list.get(i)).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String name = dataSnapshot.child("name").getValue().toString();
+
+                            String email = dataSnapshot.child("email").getValue().toString();
+                            String ImageUrl = dataSnapshot.child("image").getValue().toString();
+                            contactCardsList.add(new ContactCards(name, email, ImageUrl));
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+                mContactAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });/*
         ContactCards contactCards = new ContactCards("Yash Dani", "yash.dani.98@gmail.com", 9890);
         contactCardsList.add(contactCards);
 
@@ -90,7 +136,7 @@ public class ViewContactInGroup extends AppCompatActivity {
         contactCards = new ContactCards("Saloni Agarwal", "saloni98@gmail.com", 546);
         contactCardsList.add(contactCards);
 
-        /*contactCards = new ContactCards("The Martian", "Science Fiction & Fantasy", "2015");
+        *//*contactCards = new ContactCards("The Martian", "Science Fiction & Fantasy", "2015");
         contactCardsList.add(contactCards);
 
         contactCards = new ContactCards("Mission: Impossible Rogue Nation", "Action", "2015");
@@ -124,11 +170,11 @@ public class ViewContactInGroup extends AppCompatActivity {
         contactCardsList.add(contactCards);
 
         contactCards = new ContactCards("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014");
-        contactCardsList.add(contactCards);*/
+        contactCardsList.add(contactCards);*//*
 
         // notify adapter about data set changes
         // so that it will render the list with new data
-        mContactAdapter.notifyDataSetChanged();
+        mContactAdapter.notifyDataSetChanged();*/
     }
 
 
@@ -151,4 +197,10 @@ public class ViewContactInGroup extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    public void showToast(String message)
+    {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
 }

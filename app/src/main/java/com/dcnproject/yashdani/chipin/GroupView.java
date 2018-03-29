@@ -227,6 +227,7 @@ public class GroupView extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.seeContacts) {
             Intent addcontactIntent = new Intent(GroupView.this,ViewContactInGroup.class);
+            addcontactIntent.putExtra("GUID",GUID);
             startActivity(addcontactIntent);
         }
         return super.onOptionsItemSelected(item);
