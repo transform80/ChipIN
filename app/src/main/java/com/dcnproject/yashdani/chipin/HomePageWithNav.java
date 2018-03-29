@@ -80,7 +80,8 @@ public class HomePageWithNav extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        current_user = mUser.getEmail();
+        if(mUser != null)
+            current_user = mUser.getEmail();
 
         mAuthListener = new FirebaseAuth.AuthStateListener(){
             @Override

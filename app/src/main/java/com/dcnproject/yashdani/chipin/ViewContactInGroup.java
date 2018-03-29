@@ -229,6 +229,7 @@ public class ViewContactInGroup extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.addcontactingroup) {
             Intent addcontactIntent = new Intent(ViewContactInGroup.this,AddMemberInGroup.class);
+            addcontactIntent.putExtra("GUID",GUID);
             startActivity(addcontactIntent);
         }
         return super.onOptionsItemSelected(item);
