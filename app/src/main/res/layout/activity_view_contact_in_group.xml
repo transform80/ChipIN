@@ -10,11 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="510dp">
+            <include layout="@layout/activity_rec_main"/>
+        </LinearLayout>
 
         <Button
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Button" />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

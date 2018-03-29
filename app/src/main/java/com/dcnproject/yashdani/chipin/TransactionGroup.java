@@ -16,27 +16,27 @@ public class TransactionGroup {
         this.amount = year;
     }
 
-    public String getTitle() {
+    public String getPayee() {
         return payee;
     }
 
-    public void setTitle(String name) {
+    public void setPayee(String name) {
         this.payee = name;
     }
 
-    public String getYear() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setYear(String year) {
+    public void setAmount(String year) {
         this.amount = year;
     }
 
-    public String getGenre() {
+    public String getDesc() {
         return desc;
     }
 
-    public void setGenre(String genre) {
+    public void setDesc(String genre) {
         this.desc = genre;
     }
 }

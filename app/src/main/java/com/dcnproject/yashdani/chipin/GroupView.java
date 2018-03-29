@@ -102,7 +102,7 @@ public class GroupView extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 TransactionGroup transactionGroup = transactionGroupList.get(position);
-                Toast.makeText(getApplicationContext(), transactionGroup.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), transactionGroup.getPayee() + " is selected!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
