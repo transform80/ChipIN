@@ -11,7 +11,7 @@
         android:fitsSystemWindows="true"
         tools:context=".HomePageWithNav">
 
-        
+
 
         <include layout="@layout/content_main"/>
 
