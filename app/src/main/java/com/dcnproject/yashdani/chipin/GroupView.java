@@ -46,6 +46,7 @@ public class GroupView extends AppCompatActivity {
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Groups").child(GUID);
+/*
 
         mAddTrans = (FloatingActionButton) findViewById(R.id.fab);
         mAddTrans.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +56,7 @@ public class GroupView extends AppCompatActivity {
                 startActivity(addtransIntent);
             }
         });
+*/
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

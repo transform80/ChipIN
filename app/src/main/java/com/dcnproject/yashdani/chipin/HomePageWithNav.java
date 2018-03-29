@@ -118,6 +118,22 @@ public class HomePageWithNav extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        final TextView mNameNavHeader = (TextView) headerView.findViewById(R.id.nameNavHeaderTv);
+        TextView mEmailNavHeader = (TextView) headerView.findViewById(R.id.emailNavHeaderTv);
+        mEmailNavHeader.setText(mUser.getEmail());
+        mDatabaseUsrRef.child(mUser.getUid()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mNameNavHeader.setText(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
