@@ -6,4 +6,16 @@
     <color name="colorBlack">#000000</color>
     <color name="year">#999999</color>
     <color name="title">#222222</color>
+    <color name="colorPDark">#375A7f</color>
+    <color name="colorP">#4D7CAE</color>
+    <color name="colorPLight">#6A99CB</color>
+    <color name="colorHighlight">#FCFA70</color>
+    <color name="colorPDarkG">#00204A</color>
+    <color name="colorPG">#005792</color>
+    <color name="colorPLightG">#00BBF0</color>
+    <color name="colorHighlightG">#FDB44B</color>
+    <color name="colorWhite">#FCFCFC</color>
+    <color name="colorMain">#83FFE6</color>
+    <color name="colorStrips">#FF5F5F</color>
+    <color name="colorFill">#2C2C2C</color>
 </resources>

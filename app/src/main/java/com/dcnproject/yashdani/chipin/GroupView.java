@@ -41,10 +41,9 @@ public class GroupView extends AppCompatActivity {
     private List<TransactionGroup> transactionGroupList = new ArrayList<>();
     private RecyclerView recyclerView;
     private TransactionGroupAdapter mAdapter;
-
-
-
     private FloatingActionButton mAddTrans;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +54,7 @@ public class GroupView extends AppCompatActivity {
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Groups").child(GUID);
-/*
+
 
         mAddTrans = (FloatingActionButton) findViewById(R.id.fab);
         mAddTrans.setOnClickListener(new View.OnClickListener() {
@@ -65,9 +64,6 @@ public class GroupView extends AppCompatActivity {
                 startActivity(addtransIntent);
             }
         });
-
-*/
-
 
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
