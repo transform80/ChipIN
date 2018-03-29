@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,9 +39,13 @@ public class AddTransactionWithNav extends AppCompatActivity
     private Button mSubmit;
     private EditText mAmount,mDesc;
     private String groupNameValue, payeeNameValue;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabaseTransactions;
     final List<String> payeeList = new ArrayList<>();
     final List<String> payeeUIDList = new ArrayList<>();
+    List<String> Users_group_list = new ArrayList<>();
+
     private int payeeIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,8 @@ public class AddTransactionWithNav extends AppCompatActivity
         mAmount = (EditText) findViewById(R.id.amountEt);
         mDesc = (EditText) findViewById(R.id.descEt);
 
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
 
 
         mSubmit= (Button) findViewById(R.id.submit_trans);
@@ -145,7 +153,9 @@ public class AddTransactionWithNav extends AppCompatActivity
         mDatabaseGrpRef.orderByChild("Name").equalTo(groupNameValue).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot.getKey() != null){
+                showToast(dataSnapshot.child("Name").getValue().toString());
+                showToast(dataSnapshot.getKey());
+                if(dataSnapshot.getKey() != null && dataSnapshot.child("Name").getValue().toString() == groupNameValue){
                     String group_ID = dataSnapshot.getKey();
                     startSplitting(group_ID,amount);
 
@@ -206,6 +216,7 @@ public class AddTransactionWithNav extends AppCompatActivity
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             payeeList.clear();
+                            payeeUIDList.clear();
                             for(DataSnapshot payeeSnapshot : dataSnapshot.getChildren()){
                                 payeeList.add(payeeSnapshot.getValue().toString());
                                 payeeUIDList.add(payeeSnapshot.getKey());
@@ -272,36 +283,38 @@ public class AddTransactionWithNav extends AppCompatActivity
 
     }
 
-    public void populateDropDown(){
+    public void populateDropDown() {
         final List<String> groupNames = new ArrayList<>();
 
         groupDropDown = (Spinner) findViewById(R.id.groupSpinner);
         mDatabaseGrpRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot groups : dataSnapshot.getChildren()) {
+                    if (groups.child("Users").hasChild(mUser.getUid())) {
+                        Users_group_list.add(groups.getKey().toString());
+                        groupNames.add(groups.child("Name").getValue().toString());
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddTransactionWithNav.this, android.R.layout.simple_spinner_item, groupNames);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        groupDropDown.setAdapter(adapter);
+                        groupDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                for(DataSnapshot groupSnapshot : dataSnapshot.getChildren()){
-                    groupNames.add(groupSnapshot.child("Name").getValue().toString());
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddTransactionWithNav.this,android.R.layout.simple_spinner_item, groupNames);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    groupDropDown.setAdapter(adapter);
-                    groupDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                groupNameValue = adapterView.getItemAtPosition(i).toString();
 
-                            groupNameValue = adapterView.getItemAtPosition(i).toString();
+                                Toast.makeText(AddTransactionWithNav.this, "Selected: " + groupNameValue, Toast.LENGTH_SHORT).show();
+                                populatePayeeDropDown();
 
-                            Toast.makeText(AddTransactionWithNav.this, "Selected: "+groupNameValue,Toast.LENGTH_SHORT).show();
-                            populatePayeeDropDown();
+                            }
 
-                        }
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
 
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
 
-                        }
-                    });
-
+                    }
                 }
             }
 
@@ -311,25 +324,25 @@ public class AddTransactionWithNav extends AppCompatActivity
             }
         });
 
-    }
 
+    }
     public void startSplitting(String guid, String amount){
         DatabaseReference group = mDatabaseGrpRef.child(guid);
         int num = payeeList.size();
-        float total_amount = Float.parseFloat(amount);
+        double total_amount = Double.parseDouble(amount);
         total_amount *= 100;
         int temp_amount = (int) total_amount;
         total_amount = temp_amount/100;
-        final float payable_share = (total_amount/num);
+        final double payable_share = (total_amount/num);
         for(int i = 0; i <num; i++ ){
             if(i != payeeIndex ) {
                 final int finalI = i;
                 mDatabaseUsrRef.child(payeeUIDList.get(i)).child("Balance").child(payeeUIDList.get(payeeIndex)).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        float balance_amount = 0;
+                        double balance_amount = 0;
                         if(dataSnapshot.getValue() != null)
-                            balance_amount = (float) dataSnapshot.getValue();
+                            balance_amount = Double.parseDouble(dataSnapshot.getValue().toString());
                         balance_amount = balance_amount - payable_share;
                         mDatabaseUsrRef.child(payeeUIDList.get(finalI)).child("Balance").child(payeeUIDList.get(payeeIndex)).setValue(balance_amount);
                         balance_amount = -balance_amount;

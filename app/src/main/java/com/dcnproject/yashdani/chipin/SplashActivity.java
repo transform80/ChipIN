@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 public class SplashActivity extends Activity {
 
-    private static int SPLASH_TIME_OUT=3000;
+    private static int SPLASH_TIME_OUT=3;
     private TextView mText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent splashIntent = new Intent(SplashActivity.this,LoginActivity.class);
+                Intent splashIntent = new Intent(SplashActivity.this,HomePageWithNav.class);
                 startActivity(splashIntent);
                 finish();
             }

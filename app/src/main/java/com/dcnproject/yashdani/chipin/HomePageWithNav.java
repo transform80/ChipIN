@@ -123,6 +123,11 @@ public class HomePageWithNav extends AppCompatActivity
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                Intent group = new Intent(HomePageWithNav.this,GroupView.class);
+
+                group.putExtra("GUID",Users_group_list.get(position));
+                startActivity(group);
+
                 com.dcnproject.yashdani.chipin.Movie movie = movieList.get(position);
 
             }
