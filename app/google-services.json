@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1018620265097-74cto4ohdjsvcqj6ikn5ckkeitijf8n6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dcnproject.yashdani.chipin",
+            "certificate_hash": "7e68f06ea957de6d4ad2b7ab7c50e4e6fb98f9b2"
+          }
+        },
+        {
           "client_id": "1018620265097-i18i12mdfp1im481g4dk4shnnd04dlbe.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
