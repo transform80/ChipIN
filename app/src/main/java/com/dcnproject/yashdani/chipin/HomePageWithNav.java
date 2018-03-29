@@ -149,7 +149,11 @@ public class HomePageWithNav extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        current_user = mUser.getEmail();
+        try {
+            current_user = mUser.getEmail();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         mAuthListener = new FirebaseAuth.AuthStateListener(){
             @Override
@@ -173,18 +177,26 @@ public class HomePageWithNav extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         final TextView mNameNavHeader = (TextView) headerView.findViewById(R.id.nameNavHeaderTv);
         TextView mEmailNavHeader = (TextView) headerView.findViewById(R.id.emailNavHeaderTv);
-        mEmailNavHeader.setText(mUser.getEmail());
-        mDatabaseUsrRef.child(mUser.getUid()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mNameNavHeader.setText(dataSnapshot.getValue().toString());
-            }
+        try {
+            mEmailNavHeader.setText(mUser.getEmail());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            mDatabaseUsrRef.child(mUser.getUid()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    mNameNavHeader.setText(dataSnapshot.getValue().toString());
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,14 +38,20 @@ public class GroupView extends AppCompatActivity {
     final List<String> memberList = new ArrayList<>();
     int iterator = 0;
 
+    private List<TransactionGroup> transactionGroupList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private TransactionGroupAdapter mAdapter;
+
+
+
     private FloatingActionButton mAddTrans;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_view);
-        mList = (RecyclerView) findViewById(R.id.groupList);
+       /* mList = (RecyclerView) findViewById(R.id.groupList);
         mList.setLayoutManager(new LinearLayoutManager(this));
-
+*/
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Groups").child(GUID);
@@ -56,8 +65,120 @@ public class GroupView extends AppCompatActivity {
                 startActivity(addtransIntent);
             }
         });
+
 */
+
+
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        mAdapter = new TransactionGroupAdapter(transactionGroupList);
+
+        recyclerView.setHasFixedSize(true);
+
+        // vertical RecyclerView
+        // keep movie_list_row.xml width to `match_parent`
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+        // horizontal RecyclerView
+        // keep movie_list_row.xml width to `wrap_content`
+        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        // adding inbuilt divider line
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+        // adding custom divider line with padding 16dp
+        // recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.HORIZONTAL, 16));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        recyclerView.setAdapter(mAdapter);
+
+        // row click listener
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                TransactionGroup transactionGroup = transactionGroupList.get(position);
+                Toast.makeText(getApplicationContext(), transactionGroup.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        prepareTransactionData();
+
+
     }
+
+
+
+    private void prepareTransactionData() {
+        TransactionGroup transactionGroup = new TransactionGroup("Jainam", "Action & Adventure", "2000");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Ansh", "Animation, Kids & Family", "2015");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Aman", "Action", "5000");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Yash", "Animation", "4000");
+        transactionGroupList.add(transactionGroup);
+
+        /*transactionGroup = new TransactionGroup("The Martian", "Science Fiction & Fantasy", "2015");
+        transactionGroupList.add(transactionGroup);*/
+
+        /*transactionGroup = new TransactionGroup("Mission: Impossible Rogue Nation", "Action", "2015");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Up", "Animation", "2009");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Star Trek", "Science Fiction", "2009");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("The LEGO TransactionGroup", "Animation", "2014");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Iron Man", "Action & Adventure", "2008");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Aliens", "Science Fiction", "1986");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Chicken Run", "Animation", "2000");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Back to the Future", "Science Fiction", "1985");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Raiders of the Lost Ark", "Action & Adventure", "1981");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Goldfinger", "Action & Adventure", "1965");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014");
+        transactionGroupList.add(transactionGroup);*/
+
+        // notify adapter about data set changes
+        // so that it will render the list with new data
+        mAdapter.notifyDataSetChanged();
+    }
+
+
+
+
+
+
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
