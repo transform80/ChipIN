@@ -3,9 +3,12 @@ package com.dcnproject.yashdani.chipin;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Movie;
 import android.support.annotation.NonNull;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -49,10 +52,14 @@ public class HomePageWithNav extends AppCompatActivity
     private static final String KEY_NAME = "name";
     private static final String KEY_EMAIL = "email";
     private FirebaseAuth.AuthStateListener mAuthListener;
-
     private TextView mWelcome;
 
-    private RecyclerView mList;
+    private List<com.dcnproject.yashdani.chipin.Movie> movieList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private MoviesAdapter mAdapter;
+
+
+    /*private RecyclerView mList;*/
     private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabase;
     final List<String> groupList = new ArrayList<>();
     int iterator = 0;
@@ -65,6 +72,59 @@ public class HomePageWithNav extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page_with_nav);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        mAdapter = new MoviesAdapter(movieList);
+
+        recyclerView.setHasFixedSize(true);
+
+        // vertical RecyclerView
+        // keep movie_list_row.xml width to `match_parent`
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+        // horizontal RecyclerView
+        // keep movie_list_row.xml width to `wrap_content`
+        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        // adding inbuilt divider line
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+        // adding custom divider line with padding 16dp
+        // recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.HORIZONTAL, 16));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        recyclerView.setAdapter(mAdapter);
+
+        // row click listener
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                com.dcnproject.yashdani.chipin.Movie movie = movieList.get(position);
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        prepareMovieData();
+
+
+
+
+
+
+
+
+
+
+
         mButton=(Button) findViewById(R.id.button);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,8 +138,8 @@ public class HomePageWithNav extends AppCompatActivity
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = pref.edit();
 
-        mList = (RecyclerView) findViewById(R.id.groupList);
-        mList.setLayoutManager(new LinearLayoutManager(this));
+       /* mList = (RecyclerView) findViewById(R.id.groupList);
+        mList.setLayoutManager(new LinearLayoutManager(this));*/
 
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
@@ -101,14 +161,6 @@ public class HomePageWithNav extends AppCompatActivity
         };
 
 
-
-
-
-
-
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -248,6 +300,68 @@ public class HomePageWithNav extends AppCompatActivity
         toast.show();
     }
 
+
+
+
+
+
+    private void prepareMovieData() {
+        com.dcnproject.yashdani.chipin.Movie movie = new com.dcnproject.yashdani.chipin.Movie("Mad Max: Fury Road", "Action & Adventure", "2015");
+        movieList.add(movie);
+
+        movie = new com.dcnproject.yashdani.chipin.Movie("Inside Out", "Animation, Kids & Family", "2015");
+        movieList.add(movie);
+
+        movie = new com.dcnproject.yashdani.chipin.Movie("Star Wars: Episode VII - The Force Awakens", "Action", "2015");
+        movieList.add(movie);
+
+        movie = new com.dcnproject.yashdani.chipin.Movie("Shaun the Sheep", "Animation", "2015");
+        movieList.add(movie);
+
+        movie = new com.dcnproject.yashdani.chipin.Movie("The Martian", "Science Fiction & Fantasy", "2015");
+        movieList.add(movie);
+
+        movie = new com.dcnproject.yashdani.chipin.Movie("Mission: Impossible Rogue Nation", "Action", "2015");
+        movieList.add(movie);
+
+        /*movie = new Movie("Up", "Animation", "2009");
+        movieList.add(movie);
+
+        movie = new Movie("Star Trek", "Science Fiction", "2009");
+        movieList.add(movie);
+
+        movie = new Movie("The LEGO Movie", "Animation", "2014");
+        movieList.add(movie);
+
+        movie = new Movie("Iron Man", "Action & Adventure", "2008");
+        movieList.add(movie);
+
+        movie = new Movie("Aliens", "Science Fiction", "1986");
+        movieList.add(movie);
+
+        movie = new Movie("Chicken Run", "Animation", "2000");
+        movieList.add(movie);
+
+        movie = new Movie("Back to the Future", "Science Fiction", "1985");
+        movieList.add(movie);
+
+        movie = new Movie("Raiders of the Lost Ark", "Action & Adventure", "1981");
+        movieList.add(movie);
+*/
+        movie = new com.dcnproject.yashdani.chipin.Movie("Goldfinger", "Action & Adventure", "1965");
+        movieList.add(movie);
+
+        movie = new com.dcnproject.yashdani.chipin.Movie("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014");
+        movieList.add(movie);
+
+        // notify adapter about data set changes
+        // so that it will render the list with new data
+        mAdapter.notifyDataSetChanged();
+    }
+
+}
+
+/*
     @Override
     protected void onStart() {
         super.onStart();
@@ -342,5 +456,5 @@ public class HomePageWithNav extends AppCompatActivity
 
             }
         });
-    }
-}
+    }*/
+

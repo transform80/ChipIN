@@ -22,4 +22,5 @@
 
     <include layout="@layout/content_home_page_with_nav" />
 
+
 </android.support.design.widget.CoordinatorLayout>

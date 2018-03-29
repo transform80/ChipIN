@@ -53,11 +53,12 @@
             android:icon="@drawable/back" />
         <activity
             android:name=".AddMemberInGroup"
-            android:label="Add Members" />
+            android:label="Add Members"
+            android:icon="@drawable/back"/>
         <activity
             android:name=".ProfileView"
             android:label="@string/title_activity_profile_view"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

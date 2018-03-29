@@ -86,7 +86,7 @@ public class ProfileView extends AppCompatActivity
         } else if (id == R.id.nav_transaction) {
             Intent addTransIntent = new Intent(ProfileView.this,AddTransactionWithNav.class);
             startActivity(addTransIntent);
-            
+
         } else if (id == R.id.nav_settings) {
             Intent settingIntent = new Intent(ProfileView.this,SettingsActivity.class);
             startActivity(settingIntent);

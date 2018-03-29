@@ -77,6 +77,7 @@ public class GroupView extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+/*
 
     @Override
     protected void onStart() {
@@ -163,6 +164,7 @@ public class GroupView extends AppCompatActivity {
         }
     }
 
+*/
 
     public void showToast(String message)
 
@@ -173,8 +175,7 @@ public class GroupView extends AppCompatActivity {
         toast.show();
 
     }
-
-    public void getGroupMembers()
+/*    public void getGroupMembers()
     {
         mDatabase.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
@@ -189,7 +190,7 @@ public class GroupView extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 
 
 }
