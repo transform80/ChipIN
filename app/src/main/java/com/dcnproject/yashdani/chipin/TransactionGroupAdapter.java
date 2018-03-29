@@ -28,8 +28,8 @@ public class TransactionGroupAdapter extends RecyclerView.Adapter<TransactionGro
     }
 
 
-    public TransactionGroupAdapter(List<TransactionGroup> moviesList) {
-        this.transactionList = moviesList;
+    public TransactionGroupAdapter(List<TransactionGroup> transactionList) {
+        this.transactionList = transactionList;
     }
 
     @Override
@@ -43,9 +43,9 @@ public class TransactionGroupAdapter extends RecyclerView.Adapter<TransactionGro
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         TransactionGroup transactionGroup = transactionList.get(position);
-        holder.payee.setText(transactionGroup.getTitle());
-        holder.desc.setText(transactionGroup.getGenre());
-        holder.amount.setText(transactionGroup.getYear());
+        holder.payee.setText(transactionGroup.getPayee());
+        holder.desc.setText(transactionGroup.getDesc());
+        holder.amount.setText(transactionGroup.getAmount());
     }
 
     @Override
