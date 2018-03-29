@@ -6,38 +6,22 @@ package com.dcnproject.yashdani.chipin;
 
 public class Movie {
 
-    private String title, genre, year;
+    private String name;
 
     public Movie() {
     }
 
-    public Movie(String title, String genre, String year) {
-        this.title = title;
-        this.genre = genre;
-        this.year = year;
-    }
+    public Movie(String title) {
+        this.name = title;
+        }
 
     public String getTitle() {
-        return title;
+        return name;
     }
 
     public void setTitle(String name) {
-        this.title = name;
+        this.name = name;
     }
 
-    public String getYear() {
-        return year;
-    }
 
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
 }

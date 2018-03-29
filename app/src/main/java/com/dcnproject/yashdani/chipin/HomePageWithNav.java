@@ -53,6 +53,8 @@ public class HomePageWithNav extends AppCompatActivity
     private static final String KEY_EMAIL = "email";
     private FirebaseAuth.AuthStateListener mAuthListener;
     private TextView mWelcome;
+    List<String> Users_group_list = new ArrayList<>();
+    List<String> GUID_List = new ArrayList<>();
 
     private List<com.dcnproject.yashdani.chipin.Movie> movieList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -60,8 +62,8 @@ public class HomePageWithNav extends AppCompatActivity
 
 
     /*private RecyclerView mList;*/
-    private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabase;
-    final List<String> groupList = new ArrayList<>();
+    private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabaseTransRef;
+    List<String> groupList = new ArrayList<>();
     int iterator = 0;
     private String current_user;
 
@@ -74,6 +76,24 @@ public class HomePageWithNav extends AppCompatActivity
         setContentView(R.layout.activity_home_page_with_nav);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        current_user = mUser.getEmail();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener(){
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth){
+                if(mAuth.getCurrentUser() == null){
+                    startActivity(new Intent(HomePageWithNav.this, LoginActivity.class));
+                }
+            }
+        };
+        mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
+        mDatabaseTransRef = FirebaseDatabase.getInstance().getReference().child("Transaction");
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         mAdapter = new MoviesAdapter(movieList);
@@ -112,16 +132,7 @@ public class HomePageWithNav extends AppCompatActivity
 
             }
         }));
-
         prepareMovieData();
-
-
-
-
-
-
-
-
 
 
 
@@ -141,24 +152,11 @@ public class HomePageWithNav extends AppCompatActivity
        /* mList = (RecyclerView) findViewById(R.id.groupList);
         mList.setLayoutManager(new LinearLayoutManager(this));*/
 
-        mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
-        mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Groups");
 
 
 
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
-        current_user = mUser.getEmail();
 
-        mAuthListener = new FirebaseAuth.AuthStateListener(){
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth){
-                if(mAuth.getCurrentUser() == null){
-                    startActivity(new Intent(HomePageWithNav.this, LoginActivity.class));
-                }
-            }
-        };
+
 
 
 
@@ -274,7 +272,7 @@ public class HomePageWithNav extends AppCompatActivity
     private void checkUserExist() {
 
         final String user_id = mAuth.getCurrentUser().getUid();
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        mDatabaseUsrRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.hasChild(user_id)) {
@@ -306,57 +304,34 @@ public class HomePageWithNav extends AppCompatActivity
 
 
     private void prepareMovieData() {
-        com.dcnproject.yashdani.chipin.Movie movie = new com.dcnproject.yashdani.chipin.Movie("Mad Max: Fury Road", "Action & Adventure", "2015");
-        movieList.add(movie);
+        showToast("Preparing users data1");
+        mDatabaseGrpRef.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                showToast("Preparing users data2");
 
-        movie = new com.dcnproject.yashdani.chipin.Movie("Inside Out", "Animation, Kids & Family", "2015");
-        movieList.add(movie);
+                for (DataSnapshot groups : dataSnapshot.getChildren()){
+                    if(groups.child("Users").hasChild(mUser.getUid())) {
+                        Users_group_list.add(groups.getKey().toString());
+                        movieList.add(new com.dcnproject.yashdani.chipin.Movie(groups.child("Name").getValue().toString()));
 
-        movie = new com.dcnproject.yashdani.chipin.Movie("Star Wars: Episode VII - The Force Awakens", "Action", "2015");
-        movieList.add(movie);
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+            }
 
-        movie = new com.dcnproject.yashdani.chipin.Movie("Shaun the Sheep", "Animation", "2015");
-        movieList.add(movie);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-        movie = new com.dcnproject.yashdani.chipin.Movie("The Martian", "Science Fiction & Fantasy", "2015");
-        movieList.add(movie);
+            }
+        });
 
-        movie = new com.dcnproject.yashdani.chipin.Movie("Mission: Impossible Rogue Nation", "Action", "2015");
-        movieList.add(movie);
 
-        /*movie = new Movie("Up", "Animation", "2009");
-        movieList.add(movie);
 
-        movie = new Movie("Star Trek", "Science Fiction", "2009");
-        movieList.add(movie);
-
-        movie = new Movie("The LEGO Movie", "Animation", "2014");
-        movieList.add(movie);
-
-        movie = new Movie("Iron Man", "Action & Adventure", "2008");
-        movieList.add(movie);
-
-        movie = new Movie("Aliens", "Science Fiction", "1986");
-        movieList.add(movie);
-
-        movie = new Movie("Chicken Run", "Animation", "2000");
-        movieList.add(movie);
-
-        movie = new Movie("Back to the Future", "Science Fiction", "1985");
-        movieList.add(movie);
-
-        movie = new Movie("Raiders of the Lost Ark", "Action & Adventure", "1981");
-        movieList.add(movie);
-*/
-        movie = new com.dcnproject.yashdani.chipin.Movie("Goldfinger", "Action & Adventure", "1965");
-        movieList.add(movie);
-
-        movie = new com.dcnproject.yashdani.chipin.Movie("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014");
-        movieList.add(movie);
 
         // notify adapter about data set changes
         // so that it will render the list with new data
-        mAdapter.notifyDataSetChanged();
     }
 
 }
