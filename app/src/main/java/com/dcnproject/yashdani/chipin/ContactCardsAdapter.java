@@ -33,14 +33,16 @@ public class ContactCardsAdapter extends RecyclerView.Adapter<ContactCardsAdapte
 
         public MyViewHolder(View view) {
             super(view);
+            itemView = view;
             name = (TextView) view.findViewById(R.id.name);
             email = (TextView) view.findViewById(R.id.email);
+            //display = (TextView) view.findViewById(R.id.contactImage);
             display = (ImageView) view.findViewById(R.id.contactImage);
         }
 
         public void setImageUrl(final Context ctx, final String image){
-            final ImageView post_image = (ImageView) itemView.findViewById(R.id.contactImage);
-            Picasso.with(ctx).load(image).networkPolicy(NetworkPolicy.OFFLINE).into(post_image, new Callback() {
+            final ImageView display = (ImageView) itemView.findViewById(R.id.contactImage);
+            Picasso.with(ctx).load(image).networkPolicy(NetworkPolicy.OFFLINE).into(display, new Callback() {
                 @Override
                 public void onSuccess() {
                     // Toast toast = Toast.makeText(ctx, "Offline Retrieved", Toast.LENGTH_SHORT);
@@ -50,7 +52,7 @@ public class ContactCardsAdapter extends RecyclerView.Adapter<ContactCardsAdapte
                 }
                 @Override
                 public void onError() {
-                    Picasso.with(ctx).load(image).into(post_image);
+                    Picasso.with(ctx).load(image).into(display);
                     //Toast toast = Toast.makeText(ctx, "Displayed from database", Toast.LENGTH_SHORT);
 
                     //toast.show();
@@ -82,6 +84,7 @@ public class ContactCardsAdapter extends RecyclerView.Adapter<ContactCardsAdapte
         ContactCards contactCards = contactList.get(position);
         holder.name.setText(contactCards.getName());
         holder.email.setText(contactCards.getEmail());
+//        holder.display.setText(contactCards.getDisplay());
         holder.setImageUrl(holder.display.getContext(),contactCards.getDisplay());
 
 

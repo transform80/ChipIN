@@ -36,6 +36,7 @@ public class ViewContactInGroup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_contact_in_group);
         GUID = getIntent().getStringExtra("GUID");
+        //GUID = "-L8TJYdJOYhkZBylThIv";
         /*Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setActionBar(mToolbar);
 */
@@ -95,17 +96,16 @@ public class ViewContactInGroup extends AppCompatActivity {
         mDatabaseGrpRef.child(GUID).child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot users : dataSnapshot.getChildren())
-                    Users_list.add(users.getKey());
-                for (int i = 0; i < Users_list.size(); i++) {
-                    mDatabaseUsrRef.child(Users_list.get(i)).addValueEventListener(new ValueEventListener() {
+                for (DataSnapshot users : dataSnapshot.getChildren()){
+                    mDatabaseUsrRef.child(users.getKey()).addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            String name = dataSnapshot.child("name").getValue().toString();
-
-                            String email = dataSnapshot.child("email").getValue().toString();
-                            String ImageUrl = dataSnapshot.child("image").getValue().toString();
+                        public void onDataChange(DataSnapshot users) {
+                            String name = users.child("name").getValue().toString();
+                            String email = users.child("email").getValue().toString();
+                            String ImageUrl = users.child("image").getValue().toString();
                             contactCardsList.add(new ContactCards(name, email, ImageUrl));
+                            showToast(String.valueOf(contactCardsList.size()));
+                            mContactAdapter.notifyDataSetChanged();
 
                         }
 
@@ -113,9 +113,45 @@ public class ViewContactInGroup extends AppCompatActivity {
                         public void onCancelled(DatabaseError databaseError) {
 
                         }
+
                     });
+                    showToast(String.valueOf(contactCardsList.size()));
+                    mContactAdapter.notifyDataSetChanged();
                 }
-                mContactAdapter.notifyDataSetChanged();
+
+
+
+                  /*  mDatabaseUsrRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot users : dataSnapshot.getChildren()){
+                                for (int i = 0; i < Users_list.size(); i++) {
+                                    {   showToast(Users_list.get(i));
+                                        if (users.getKey().toString() == Users_list.get(i)) {
+                                            showToast("Step main");
+                                            String name = users.child("name").getValue().toString();
+                                            showToast(dataSnapshot.child("name").getValue().toString());
+                                            String email = users.child("email").getValue().toString();
+                                            String ImageUrl = users.child("image").getValue().toString();
+                                            contactCardsList.add(new ContactCards(name, email, ImageUrl));
+                                            Users_list.remove(i);
+                                        }
+                                    }
+                                }
+                            }
+                            showToast(String.valueOf(contactCardsList.size()));
+                            mContactAdapter.notifyDataSetChanged();
+                            showToast("Data change Notified");
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    }); */
+
+
+
 
             }
 

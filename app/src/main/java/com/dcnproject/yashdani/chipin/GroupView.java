@@ -33,28 +33,31 @@ import java.util.List;
 public class GroupView extends AppCompatActivity {
 
     private RecyclerView mList;
-    private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabase;
-    private String GUID = "-L8T8XbApnZSp5ynd9tw";
-    final List<String> memberList = new ArrayList<>();
+    private String GUID ;
+    List<String> Groups_Transactions = new ArrayList<>();
     int iterator = 0;
 
     private List<TransactionGroup> transactionGroupList = new ArrayList<>();
     private RecyclerView recyclerView;
     private TransactionGroupAdapter mAdapter;
+    private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabaseTransRef;
+
+
+
+
     private FloatingActionButton mAddTrans;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_view);
+        GUID = getIntent().getStringExtra("GUID").trim();
        /* mList = (RecyclerView) findViewById(R.id.groupList);
         mList.setLayoutManager(new LinearLayoutManager(this));
 */
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Groups").child(GUID);
-
+        mDatabaseTransRef = FirebaseDatabase.getInstance().getReference().child("Transactions");
+/*
 
         mAddTrans = (FloatingActionButton) findViewById(R.id.fab);
         mAddTrans.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +67,9 @@ public class GroupView extends AppCompatActivity {
                 startActivity(addtransIntent);
             }
         });
+
+*/
+
 
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -113,7 +119,38 @@ public class GroupView extends AppCompatActivity {
 
 
     private void prepareTransactionData() {
-        TransactionGroup transactionGroup = new TransactionGroup("Jainam", "Action & Adventure", "2000");
+        //showToast("Preparing users data1");
+
+        mDatabaseTransRef.orderByChild("GUID").equalTo(GUID).addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot trans : dataSnapshot.getChildren()) {
+                    //showToast("Preparing users data3");
+                    //showToast(trans.child("GUID").getValue().toString());
+                    Groups_Transactions.add(trans.getKey().toString());
+                    String name = trans.child("Payee").getValue().toString();
+                    String Reason = trans.child("Payment Description").getValue().toString();
+                    String TotalAmount = trans.child("Total Amount").getValue().toString();
+                    transactionGroupList.add(new TransactionGroup(name,Reason,TotalAmount));
+                    //showToast(String.valueOf(transactionGroupList.size()));
+
+
+
+
+                }
+                mAdapter.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /*TransactionGroup transactionGroup = new TransactionGroup("Jainam", "Action & Adventure", "2000");
         transactionGroupList.add(transactionGroup);
 
         transactionGroup = new TransactionGroup("Ansh", "Animation, Kids & Family", "2015");
@@ -125,10 +162,10 @@ public class GroupView extends AppCompatActivity {
         transactionGroup = new TransactionGroup("Yash", "Animation", "4000");
         transactionGroupList.add(transactionGroup);
 
-        /*transactionGroup = new TransactionGroup("The Martian", "Science Fiction & Fantasy", "2015");
-        transactionGroupList.add(transactionGroup);*/
+        *//*transactionGroup = new TransactionGroup("The Martian", "Science Fiction & Fantasy", "2015");
+        transactionGroupList.add(transactionGroup);*//*
 
-        /*transactionGroup = new TransactionGroup("Mission: Impossible Rogue Nation", "Action", "2015");
+        *//*transactionGroup = new TransactionGroup("Mission: Impossible Rogue Nation", "Action", "2015");
         transactionGroupList.add(transactionGroup);
 
         transactionGroup = new TransactionGroup("Up", "Animation", "2009");
@@ -159,11 +196,11 @@ public class GroupView extends AppCompatActivity {
         transactionGroupList.add(transactionGroup);
 
         transactionGroup = new TransactionGroup("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014");
-        transactionGroupList.add(transactionGroup);*/
+        transactionGroupList.add(transactionGroup);*//*
 
         // notify adapter about data set changes
         // so that it will render the list with new data
-        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();*/
     }
 
 
