@@ -98,4 +98,5 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_group_view_with_nav">GroupViewWithNav</string>
+    <string name="title_activity_profile_view">ProfileView</string>
 </resources>
