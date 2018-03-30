@@ -146,6 +146,8 @@ public class HomePageWithNav extends AppCompatActivity
         }));
 
 
+
+
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = pref.edit();
 
