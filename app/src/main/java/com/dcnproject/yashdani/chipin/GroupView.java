@@ -51,26 +51,10 @@ public class GroupView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_view);
         GUID = getIntent().getStringExtra("GUID").trim();
-       /* mList = (RecyclerView) findViewById(R.id.groupList);
-        mList.setLayoutManager(new LinearLayoutManager(this));
-*/
+
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
         mDatabaseTransRef = FirebaseDatabase.getInstance().getReference().child("Transactions");
-/*
-
-        mAddTrans = (FloatingActionButton) findViewById(R.id.fab);
-        mAddTrans.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent addtransIntent = new Intent(GroupView.this,AddTransaction.class);
-                startActivity(addtransIntent);
-            }
-        });
-
-*/
-
-
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -203,15 +187,6 @@ public class GroupView extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();*/
     }
 
-
-
-
-
-
-
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -232,97 +207,8 @@ public class GroupView extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-/*
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseRecyclerAdapter<Cards_GroupView , cardViewHolder> firebaserecycleradapter = new FirebaseRecyclerAdapter<Cards_GroupView, cardViewHolder>(
-                Cards_GroupView.class,
-                R.layout.list_row_group_view,
-                cardViewHolder.class,
-                mDatabaseUsrRef
-        ) {
-
-            @Override
-            protected void populateViewHolder(final cardViewHolder viewHolder, final Cards_GroupView model, int position) {
-
-                getGroupMembers();
-
-                mDatabaseUsrRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        showToast("Getting datasnapshot");
-                        if(iterator < memberList.size()) {
-                            viewHolder.setName(dataSnapshot.child(memberList.get(iterator)).child("name").getValue().toString());
-                            viewHolder.setImageUrl(getApplicationContext(),dataSnapshot.child(memberList.get(iterator++)).child("image").getValue().toString());
-
-                        }
-
-                    }
-
-
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-
-
-
-
-
-
-            }
-        };
-        mList.setAdapter(firebaserecycleradapter);
-
-
-
-    }
-
-    public static class cardViewHolder extends RecyclerView.ViewHolder {
-        View mView;
-        ImageView mProfileImage;
-        TextView mMember;
-
-
-        public cardViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-            mProfileImage = (ImageView) mView.findViewById(R.id.profilePic);
-            mMember = (TextView) mView.findViewById(R.id.memberNameEt);
-        }
-
-        public void setName(String name) {
-            TextView   mMember = (TextView) mView.findViewById(R.id.memberNameEt);
-            mMember.setText(name);
-
-        }
-
-        public void setImageUrl(final Context ctx, final String image){
-            final ImageView post_image = (ImageView) mView.findViewById(R.id.profilePic);
-            Picasso.with(ctx).load(image).networkPolicy(NetworkPolicy.OFFLINE).into(post_image, new Callback() {
-                @Override
-                public void onSuccess() {
-
-                }
-                @Override
-                public void onError() {
-                    Picasso.with(ctx).load(image).into(post_image);
-                }
-            });
-
-
-        }
-    }
-
-*/
 
     public void showToast(String message)
-
     {
 
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
@@ -330,22 +216,5 @@ public class GroupView extends AppCompatActivity {
         toast.show();
 
     }
-/*    public void getGroupMembers()
-    {
-        mDatabase.child("Users").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot payeeSnapshot : dataSnapshot.getChildren()) {
-                    memberList.add(payeeSnapshot.getKey().toString());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }*/
-
 
 }

@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -51,7 +52,6 @@ public class HomePageWithNav extends AppCompatActivity
     private static final String IS_LOGIN = "IsLoggedIn";
     private static final String KEY_NAME = "name";
     private static final String KEY_EMAIL = "email";
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private TextView mWelcome;
     List<String> Users_group_list = new ArrayList<>();
     List<String> GUID_List = new ArrayList<>();
@@ -77,20 +77,27 @@ public class HomePageWithNav extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         mAuth = FirebaseAuth.getInstance();
+        mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth){
+                showToast("Chechking if user exists");
+                Log.d("Login Error Report", "onAuthStateChanged: Checking if user exists");
+                if(mAuth.getCurrentUser() == null){
+                    startActivity(new Intent(HomePageWithNav.this, LoginActivity.class));
+                    Log.d("Login Error Report", "onAuthStateChanged: User Does Not Exist");
+                    showToast("User does not exist");
+                }
+            }
+        });
+
+
+
         mUser = mAuth.getCurrentUser();
         if(mUser != null)
             current_user = mUser.getEmail();
 
-        mAuthListener = new FirebaseAuth.AuthStateListener(){
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth){
-                if(mAuth.getCurrentUser() == null){
-                    startActivity(new Intent(HomePageWithNav.this, LoginActivity.class));
-                }
-            }
-        };
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
         mDatabaseTransRef = FirebaseDatabase.getInstance().getReference().child("Transaction");
@@ -138,7 +145,6 @@ public class HomePageWithNav extends AppCompatActivity
 
             }
         }));
-        prepareMovieData();
 
 
 
@@ -177,6 +183,7 @@ public class HomePageWithNav extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         final TextView mNameNavHeader = (TextView) headerView.findViewById(R.id.nameNavHeaderTv);
         TextView mEmailNavHeader = (TextView) headerView.findViewById(R.id.emailNavHeaderTv);
+        if(mUser != null){
         mEmailNavHeader.setText(mUser.getEmail());
         mDatabaseUsrRef.child(mUser.getUid()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -189,6 +196,8 @@ public class HomePageWithNav extends AppCompatActivity
 
             }
         });
+            prepareMovieData();
+        }
 
     }
 
