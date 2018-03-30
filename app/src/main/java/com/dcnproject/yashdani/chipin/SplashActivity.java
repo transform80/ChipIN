@@ -20,7 +20,7 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent splashIntent = new Intent(SplashActivity.this,HomePageWithNav.class);
+                Intent splashIntent = new Intent(SplashActivity.this,ProfileView.class);
                 startActivity(splashIntent);
                 finish();
             }

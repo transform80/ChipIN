@@ -42,6 +42,14 @@ public class ProfileView extends AppCompatActivity
     private Uri mImgU = null;
     private TextView mName, mEmail;
 
+    List<String> Users_group_list = new ArrayList<>();
+    List<String> GUID_List = new ArrayList<>();
+    List<String> Groups_User_List = new ArrayList<>();
+    List<String> Groups_Transactions = new ArrayList<>();
+    List<String> Users_Transactions = new ArrayList<>( );
+
+    private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabaseTransRef;
+
     private FirebaseUser mUser;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -52,11 +60,11 @@ public class ProfileView extends AppCompatActivity
     private RecyclerView recyclerView;
     private TransactionProfileCardsAdapter mTransProfileAdapter;
 
-    private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabaseTransRef;
-
 
     private DatabaseReference mDatabaseUsers;
     private StorageReference mStorage;
+
+    private String UID;
 
     public static final int GALLERY_REQUEST = 1;
 
@@ -70,6 +78,10 @@ public class ProfileView extends AppCompatActivity
 
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
+        mDatabaseTransRef = FirebaseDatabase.getInstance().getReference().child("Transactions");
 
         mTransProfileAdapter = new TransactionProfileCardsAdapter(transactionProfileCardsList);
 
@@ -108,22 +120,19 @@ public class ProfileView extends AppCompatActivity
             }
         }));
 
-        prepareTransProfileData();
-
-
-
-
-
         mProfileImage =(ImageButton) findViewById(R.id.profilePicButton);
 
 
                 mAuth = FirebaseAuth.getInstance();
                 //mList.hasFixedSize(true);
                 mUser = mAuth.getCurrentUser();
+                UID = mUser.getUid();
                 mDatabase1 = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
                 mStorage  = FirebaseStorage.getInstance().getReference().child("ProfilePictures");
+        prepareTransProfileData();
 
-                mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
                 mDatabaseUsers.keepSynced(true);
 
                 mName = (TextView) findViewById(R.id.profileNameTv);
@@ -185,8 +194,168 @@ public class ProfileView extends AppCompatActivity
         }
     }
 
+
+
+    private void prepareTransData() {
+
+        showToast("Preparing users data1");
+        mDatabaseGrpRef.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                showToast("Preparing users data2");
+
+                for (DataSnapshot groups : dataSnapshot.getChildren()){
+                    showToast("Preparing USER Data 3");
+                    if(groups.child("Users").hasChild(mUser.getUid())) {
+                        showToast("Adding groups Trans");
+                        Users_group_list.add(groups.getKey().toString());
+                        mDatabaseTransRef.orderByChild("GUID").equalTo(groups.getKey().toString()).addValueEventListener(new ValueEventListener()
+                        {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                showToast("Adding groups tarms");
+                                for (DataSnapshot trans : dataSnapshot.getChildren()) {
+                                    //showToast("Preparing users data3");
+                                    //showToast(trans.child("GUID").getValue().toString());
+                                    try {
+                                        Groups_Transactions.add(trans.getKey().toString());
+                                        String name = trans.child("Payee").getValue().toString();
+                                        String Reason = trans.child("Payment Description").getValue().toString();
+                                        String TotalAmount = trans.child("Total Amount").getValue().toString();
+                                        transactionProfileCardsList.add(new TransactionProfileCards(name,Reason,TotalAmount));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    //showToast(String.valueOf(transactionGroupList.size()));
+
+
+
+
+                                }
+                                mTransProfileAdapter.notifyDataSetChanged();
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+
+                    }
+                }
+/*
+                mAdapter.notifyDataSetChanged();
+*/
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //showToast("Preparing users data1");
+
+        /*TransactionGroup transactionGroup = new TransactionGroup("Jainam", "Action & Adventure", "2000");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Ansh", "Animation, Kids & Family", "2015");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Aman", "Action", "5000");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Yash", "Animation", "4000");
+        transactionGroupList.add(transactionGroup);
+
+        *//*transactionGroup = new TransactionGroup("The Martian", "Science Fiction & Fantasy", "2015");
+        transactionGroupList.add(transactionGroup);*//*
+
+        *//*transactionGroup = new TransactionGroup("Mission: Impossible Rogue Nation", "Action", "2015");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Up", "Animation", "2009");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Star Trek", "Science Fiction", "2009");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("The LEGO TransactionGroup", "Animation", "2014");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Iron Man", "Action & Adventure", "2008");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Aliens", "Science Fiction", "1986");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Chicken Run", "Animation", "2000");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Back to the Future", "Science Fiction", "1985");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Raiders of the Lost Ark", "Action & Adventure", "1981");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Goldfinger", "Action & Adventure", "1965");
+        transactionGroupList.add(transactionGroup);
+
+        transactionGroup = new TransactionGroup("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014");
+        transactionGroupList.add(transactionGroup);*//*
+
+        // notify adapter about data set changes
+        // so that it will render the list with new data
+        mAdapter.notifyDataSetChanged();*/
+    }
+
+
+
     private void prepareTransProfileData() {
-        TransactionProfileCards transactionProfileCards = new TransactionProfileCards("Jainam", "Action & Adventure", "2015");
+        mDatabaseUsrRef.child(mAuth.getCurrentUser().getUid()).child("Balance").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot users: dataSnapshot.getChildren()){
+                    final String name = users.getKey().toString();
+                    final String amount = dataSnapshot.child(users.getKey().toString()).getValue().toString();
+                    final String trans;
+                    if(Double.parseDouble(amount) > 0){
+                        trans = "Take";
+                    }
+                    else{
+                        trans = "Give";
+                    }
+                    mDatabaseUsrRef.child(name).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot names) {
+                            String user_name = names.child("name").getValue().toString();
+                            transactionProfileCardsList.add(new TransactionProfileCards(user_name,trans,amount));
+                            mTransProfileAdapter.notifyDataSetChanged();
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /*TransactionProfileCards transactionProfileCards = new TransactionProfileCards("Jainam", "Action & Adventure", "2015");
         transactionProfileCardsList.add(transactionProfileCards);
 
         transactionProfileCards = new TransactionProfileCards("Yash", "Animation, Kids & Family", "2015");
@@ -201,7 +370,7 @@ public class ProfileView extends AppCompatActivity
 
         // notify adapter about data set changes
         // so that it will render the list with new data
-        mTransProfileAdapter.notifyDataSetChanged();
+        mTransProfileAdapter.notifyDataSetChanged();*/
     }
 
     @Override
@@ -275,6 +444,11 @@ public class ProfileView extends AppCompatActivity
 
 
 
+    }
+    public void showToast(String message)
+    {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
 }
