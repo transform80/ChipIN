@@ -62,14 +62,6 @@ public class AddTransactionWithNav extends AppCompatActivity
         mUser = mAuth.getCurrentUser();
 
 
-        mSubmit= (Button) findViewById(R.id.submit_trans);
-        mSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NewTransaction();
-            }
-        });
-
         // Populating Drop Downs
 
         populateDropDown();
@@ -229,9 +221,15 @@ public class AddTransactionWithNav extends AppCompatActivity
 
                                         payeeNameValue = adapterView.getItemAtPosition(i).toString();
                                         payeeIndex = i;
-
-
                                         Toast.makeText(AddTransactionWithNav.this, "Selected: "+payeeNameValue,Toast.LENGTH_SHORT).show();
+                                        mSubmit= (Button) findViewById(R.id.submit_trans);
+                                        mSubmit.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                NewTransaction();
+                                            }
+                                        });
+
 
                                     }
 

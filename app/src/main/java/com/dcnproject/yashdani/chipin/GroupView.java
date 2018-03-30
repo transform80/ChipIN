@@ -37,6 +37,8 @@ public class GroupView extends AppCompatActivity {
     List<String> Groups_Transactions = new ArrayList<>();
     int iterator = 0;
 
+    
+
     private List<TransactionGroup> transactionGroupList = new ArrayList<>();
     private RecyclerView recyclerView;
     private TransactionGroupAdapter mAdapter;
