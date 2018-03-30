@@ -37,7 +37,7 @@ public class GroupView extends AppCompatActivity {
     List<String> Groups_Transactions = new ArrayList<>();
     int iterator = 0;
 
-    
+
 
     private List<TransactionGroup> transactionGroupList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -57,6 +57,17 @@ public class GroupView extends AppCompatActivity {
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
         mDatabaseTransRef = FirebaseDatabase.getInstance().getReference().child("Transactions");
+
+        mAddTrans = (FloatingActionButton) findViewById(R.id.fab);
+
+        mAddTrans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent groupTrans = new Intent(GroupView.this,AddTransactionWithNav.class);
+                groupTrans.putExtra("GUID",GUID);
+                startActivity(groupTrans);
+            }
+        });
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -114,11 +125,15 @@ public class GroupView extends AppCompatActivity {
                 for (DataSnapshot trans : dataSnapshot.getChildren()) {
                     //showToast("Preparing users data3");
                     //showToast(trans.child("GUID").getValue().toString());
-                    Groups_Transactions.add(trans.getKey().toString());
-                    String name = trans.child("Payee").getValue().toString();
-                    String Reason = trans.child("Payment Description").getValue().toString();
-                    String TotalAmount = trans.child("Total Amount").getValue().toString();
-                    transactionGroupList.add(new TransactionGroup(name,Reason,TotalAmount));
+                    try {
+                        Groups_Transactions.add(trans.getKey().toString());
+                        String name = trans.child("Payee").getValue().toString();
+                        String Reason = trans.child("Payment Description").getValue().toString();
+                        String TotalAmount = trans.child("Total Amount").getValue().toString();
+                        transactionGroupList.add(new TransactionGroup(name,Reason,TotalAmount));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     //showToast(String.valueOf(transactionGroupList.size()));
 
 

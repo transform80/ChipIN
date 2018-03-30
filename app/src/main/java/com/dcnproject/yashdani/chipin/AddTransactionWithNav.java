@@ -45,11 +45,18 @@ public class AddTransactionWithNav extends AppCompatActivity
     final List<String> payeeList = new ArrayList<>();
     final List<String> payeeUIDList = new ArrayList<>();
     List<String> Users_group_list = new ArrayList<>();
+    String GUID;
+    private boolean para_passed = false;
 
     private int payeeIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(getIntent().hasExtra("GUID")){
+            GUID = getIntent().getStringExtra("GUID");
+            para_passed = true;
+
+        }
         setContentView(R.layout.activity_add_transaction_with_nav);
         mDatabaseTransactions = FirebaseDatabase.getInstance().getReference().child("Transactions");
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
@@ -140,8 +147,9 @@ public class AddTransactionWithNav extends AppCompatActivity
     {
         final String amount = mAmount.getText().toString();
         final String reason = mDesc.getText().toString();
-
         final DatabaseReference newTrans = mDatabaseTransactions.push();
+
+        if(!para_passed){
         mDatabaseGrpRef.orderByChild("Name").equalTo(groupNameValue).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -149,6 +157,7 @@ public class AddTransactionWithNav extends AppCompatActivity
                 showToast(dataSnapshot.getKey());
                 if(dataSnapshot.getKey() != null && dataSnapshot.child("Name").getValue().toString() == groupNameValue){
                     String group_ID = dataSnapshot.getKey();
+
                     startSplitting(group_ID,amount);
 
                     newTrans.child("GUID").setValue(group_ID);
@@ -190,6 +199,25 @@ public class AddTransactionWithNav extends AppCompatActivity
 
             }
         });
+        }
+        else {
+            startSplitting(GUID,amount);
+
+            newTrans.child("GUID").setValue(GUID);
+            newTrans.child("Total Amount").setValue(amount);
+            newTrans.child("Payee").setValue(payeeNameValue);
+            newTrans.child("Payment Description").setValue(reason);
+            SimpleDateFormat sdate = new SimpleDateFormat("dd/MM/yyyy");
+            String format = sdate.format(new Date());
+            newTrans.child("Time").setValue(format);
+            showToast("Transaction Succesfull");
+
+            Intent subtransIntent = new Intent(AddTransactionWithNav.this, GroupView.class);
+            subtransIntent.putExtra("GUID",GUID);
+            startActivity(subtransIntent);
+            finish();
+
+        }
     }
     public  void showToast(String message)
     {
@@ -199,72 +227,189 @@ public class AddTransactionWithNav extends AppCompatActivity
 
     public void populatePayeeDropDown(){
         memberDropDown = (Spinner) findViewById(R.id.memberSpinner);
-        if (groupNameValue != null){
-            mDatabaseGrpRef.orderByChild("Name").equalTo(groupNameValue).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    String GUID = dataSnapshot.getKey();
-                    mDatabaseGrpRef.child(GUID).child("Users").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            payeeList.clear();
-                            payeeUIDList.clear();
-                            for(DataSnapshot payeeSnapshot : dataSnapshot.getChildren()){
-                                payeeList.add(payeeSnapshot.getValue().toString());
-                                payeeUIDList.add(payeeSnapshot.getKey());
-                                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(AddTransactionWithNav.this,android.R.layout.simple_spinner_item, payeeList);
-                                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                memberDropDown.setAdapter(adapter2);
-                                memberDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        if(!para_passed) {
+            if (groupNameValue != null) {
+                mDatabaseGrpRef.orderByChild("Name").equalTo(groupNameValue).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        String GUID = dataSnapshot.getKey();
+                        mDatabaseGrpRef.child(GUID).child("Users").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                payeeList.clear();
+                                payeeUIDList.clear();
+                                for (DataSnapshot payeeSnapshot : dataSnapshot.getChildren()) {
+                                    payeeList.add(payeeSnapshot.getValue().toString());
+                                    payeeUIDList.add(payeeSnapshot.getKey());
+                                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(AddTransactionWithNav.this, android.R.layout.simple_spinner_item, payeeList);
+                                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    memberDropDown.setAdapter(adapter2);
+                                    memberDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                                        payeeNameValue = adapterView.getItemAtPosition(i).toString();
-                                        payeeIndex = i;
-                                        Toast.makeText(AddTransactionWithNav.this, "Selected: "+payeeNameValue,Toast.LENGTH_SHORT).show();
-                                        mSubmit= (Button) findViewById(R.id.submit_trans);
-                                        mSubmit.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                NewTransaction();
-                                            }
-                                        });
-
-
-                                    }
-
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                                    }
-                                });
+                                            payeeNameValue = adapterView.getItemAtPosition(i).toString();
+                                            payeeIndex = i;
+                                            Toast.makeText(AddTransactionWithNav.this, "Selected: " + payeeNameValue, Toast.LENGTH_SHORT).show();
+                                            mSubmit = (Button) findViewById(R.id.submit_trans);
+                                            mSubmit.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    NewTransaction();
+                                                }
+                                            });
 
 
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                        }
+                                    });
+
+
+                                }
 
                             }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }
+
+        }
+        else{
+
+            mDatabaseGrpRef.child(GUID).child("Users").addValueEventListener(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                payeeList.clear();
+                payeeUIDList.clear();
+                for (DataSnapshot payeeSnapshot : dataSnapshot.getChildren()) {
+                    payeeList.add(payeeSnapshot.getValue().toString());
+                    payeeUIDList.add(payeeSnapshot.getKey());
+                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(AddTransactionWithNav.this, android.R.layout.simple_spinner_item, payeeList);
+                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    memberDropDown.setAdapter(adapter2);
+                    memberDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            payeeNameValue = adapterView.getItemAtPosition(i).toString();
+                            payeeIndex = i;
+                            Toast.makeText(AddTransactionWithNav.this, "Selected: " + payeeNameValue, Toast.LENGTH_SHORT).show();
+                            mSubmit = (Button) findViewById(R.id.submit_trans);
+                            mSubmit.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    NewTransaction();
+                                }
+                            });
+
 
                         }
 
                         @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                        public void onNothingSelected(AdapterView<?> adapterView) {
 
                         }
                     });
 
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
                 }
 
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        }
+
+    }
+
+    public void populateDropDown() {
+        final List<String> groupNames = new ArrayList<>();
+
+        groupDropDown = (Spinner) findViewById(R.id.groupSpinner);
+        if(!para_passed) {
+            mDatabaseGrpRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot groups : dataSnapshot.getChildren()) {
+                        if (groups.child("Users").hasChild(mUser.getUid())) {
+                            Users_group_list.add(groups.getKey().toString());
+                            groupNames.add(groups.child("Name").getValue().toString());
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddTransactionWithNav.this, android.R.layout.simple_spinner_item, groupNames);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            groupDropDown.setAdapter(adapter);
+                            groupDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                    groupNameValue = adapterView.getItemAtPosition(i).toString();
+
+
+                                    Toast.makeText(AddTransactionWithNav.this, "Selected: " + groupNameValue, Toast.LENGTH_SHORT).show();
+                                    populatePayeeDropDown();
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                }
+                            });
+
+                        }
+                    }
                 }
 
                 @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+        else {
+            mDatabaseGrpRef.child(GUID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    groupNames.add(dataSnapshot.child("Name").getValue().toString());
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddTransactionWithNav.this, android.R.layout.simple_spinner_item, groupNames);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    groupDropDown.setAdapter(adapter);
+                    groupDropDown.setEnabled(false);
+                    populatePayeeDropDown();
+
 
                 }
 
@@ -273,55 +418,7 @@ public class AddTransactionWithNav extends AppCompatActivity
 
                 }
             });
-
-
         }
-
-
-
-    }
-
-    public void populateDropDown() {
-        final List<String> groupNames = new ArrayList<>();
-
-        groupDropDown = (Spinner) findViewById(R.id.groupSpinner);
-        mDatabaseGrpRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot groups : dataSnapshot.getChildren()) {
-                    if (groups.child("Users").hasChild(mUser.getUid())) {
-                        Users_group_list.add(groups.getKey().toString());
-                        groupNames.add(groups.child("Name").getValue().toString());
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddTransactionWithNav.this, android.R.layout.simple_spinner_item, groupNames);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        groupDropDown.setAdapter(adapter);
-                        groupDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                                groupNameValue = adapterView.getItemAtPosition(i).toString();
-
-                                Toast.makeText(AddTransactionWithNav.this, "Selected: " + groupNameValue, Toast.LENGTH_SHORT).show();
-                                populatePayeeDropDown();
-
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> adapterView) {
-
-                            }
-                        });
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
 
     }
     public void startSplitting(String guid, String amount){
