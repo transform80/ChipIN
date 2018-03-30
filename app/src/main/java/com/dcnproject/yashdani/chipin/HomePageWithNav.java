@@ -43,7 +43,6 @@ import java.util.List;
 
 public class HomePageWithNav extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private Button mButton;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private SharedPreferences pref;
@@ -146,17 +145,6 @@ public class HomePageWithNav extends AppCompatActivity
             }
         }));
 
-
-
-        mButton=(Button) findViewById(R.id.button);
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent buttonIntent = new Intent(HomePageWithNav.this,GroupView.class);
-                startActivity(buttonIntent);
-                finish();
-            }
-        });
 
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = pref.edit();

@@ -7,19 +7,21 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.dcnproject.yashdani.chipin.AddTransactionWithNav"
     tools:showIn="@layout/app_bar_add_transaction_with_nav">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:background="@drawable/gradient">
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Transaction"
-            android:textColor="@color/colorBlack"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_centerHorizontal="true"
             android:textAllCaps="true"
             android:textAlignment="center"
             android:textSize="20sp"
@@ -30,16 +32,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textSize="18sp"
-            android:textColor="@color/colorBlack"
-            android:text="Select Group" />
+            android:layout_below="@id/textView9"
+            android:textSize="22sp"
+            android:textColor="#ffffff"
+            android:text="Select Group"
+            android:layout_alignEnd="@id/textView9"
+            android:layout_alignStart="@id/textView9"/>
 
         <Spinner
             android:id="@+id/groupSpinner"
+            android:layout_below="@id/textView13"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contextClickable="true"
+            android:layout_alignEnd="@id/textView9"
+            android:layout_alignStart="@id/textView9"
             android:clickable="true"
             />
 
@@ -48,13 +56,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select Member"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
+            android:layout_alignEnd="@id/textView9"
+            android:layout_alignStart="@id/textView9"
+            android:textColor="#ffffff"
+            android:layout_below="@id/groupSpinner"
+            android:textSize="22sp"
             android:layout_marginTop="20dp"/>
 
         <Spinner
             android:id="@+id/memberSpinner"
             android:layout_width="wrap_content"
+            android:layout_alignEnd="@id/textView9"
+            android:layout_alignStart="@id/textView9"
+            android:layout_below="@id/textView14"
             android:layout_height="wrap_content"
             android:contextClickable="true"
             android:clickable="true"/>
@@ -63,29 +77,43 @@
             android:id="@+id/textView12"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
+            android:layout_alignEnd="@id/textView9"
+            android:layout_alignStart="@id/textView9"
             android:layout_height="wrap_content"
+            android:layout_below="@id/memberSpinner"
             android:text="Enter Amount(in Rupees):"
-            android:textSize="18sp"
-            android:textColor="@color/colorBlack"/>
+            android:textSize="22sp"
+            android:textColor="#ffffff"/>
 
         <EditText
             android:id="@+id/amountEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:textSize="15sp"
-            android:textColor="@color/colorBlack"
-            android:hint="Enter an amount"
+            android:textSize="18sp"
+            android:layout_alignEnd="@id/textView9"
+            android:layout_alignStart="@id/textView9"
+            android:textColor="#ffffff"
+            android:layout_below="@id/textView12"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#11000000"
+            android:hint=" Enter an amount"
+            android:textColorHint="#ffffff"
+            android:drawableLeft="@mipmap/ic_payment_white_24dp"
             android:inputType="numberDecimal" />
 
         <TextView
             android:id="@+id/textView10"
             android:layout_width="match_parent"
+            android:layout_alignEnd="@id/textView9"
+            android:layout_alignStart="@id/textView9"
             android:layout_height="wrap_content"
             android:text="Entry Info:"
+            android:layout_below="@id/amountEt"
             android:layout_marginTop="18sp"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
             />
 
         <EditText
@@ -93,18 +121,55 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:textColor="@color/colorBlack"
+            android:drawableLeft="@mipmap/ic_description_white_24dp"
+            android:layout_below="@id/textView10"
+            android:textColor="#ffffff"
             android:inputType="textPersonName"
-            android:hint="Description"
-            android:textSize="15sp"/>
+            android:layout_marginLeft="20dp"
+            android:layout_alignEnd="@id/textView9"
+            android:layout_alignStart="@id/textView9"
+            android:layout_marginRight="20dp"
+            android:background="#11000000"
+            android:textColorHint="#ffffff"
+            android:hint=" Description"
+            android:textSize="18sp"/>
 
-        <Button
+        <android.support.v7.widget.CardView
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="10dp"
+            android:layout_below="@id/descEt"
+            android:id="@+id/cardView"
+            android:layout_marginTop="40sp"
+            android:layout_marginBottom="31dp"
+            android:layout_above="@+id/signup"
+            android:layout_centerHorizontal="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/submit_trans"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="ADD"
+                    android:background="@color/colorAccent"
+                    android:textColor="#fff"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+       <!-- <Button
             android:id="@+id/submit_trans"
             android:layout_width="150dp"
-            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
-            android:text="Submit"
-            android:layout_marginLeft="100dp"/>
-    </LinearLayout>
+            android:layout_below="@+id/descEt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28dp"
+            android:text="Submit" />-->
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
