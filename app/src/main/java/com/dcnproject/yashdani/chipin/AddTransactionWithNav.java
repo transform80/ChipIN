@@ -441,7 +441,15 @@ public class AddTransactionWithNav extends AppCompatActivity
                         balance_amount = balance_amount - payable_share;
                         mDatabaseUsrRef.child(payeeUIDList.get(finalI)).child("Balance").child(payeeUIDList.get(payeeIndex)).setValue(balance_amount);
                         balance_amount = -balance_amount;
-                        mDatabaseUsrRef.child(payeeUIDList.get(payeeIndex)).child("Balance").child(payeeUIDList.get(finalI)).setValue(balance_amount);
+                        if(balance_amount != 0){
+                            mDatabaseUsrRef.child(payeeUIDList.get(payeeIndex)).child("Balance").child(payeeUIDList.get(finalI)).setValue(balance_amount);
+                            mDatabaseUsrRef.child(payeeUIDList.get(finalI)).child("Balance").child(payeeUIDList.get(payeeIndex)).setValue(balance_amount);
+
+                        }
+                        else{
+                            mDatabaseUsrRef.child(payeeUIDList.get(payeeIndex)).child("Balance").child(payeeUIDList.get(finalI)).removeValue();
+                            mDatabaseUsrRef.child(payeeUIDList.get(finalI)).child("Balance").child(payeeUIDList.get(payeeIndex)).removeValue();
+                        }
 
                     }
 
