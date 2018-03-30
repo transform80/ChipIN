@@ -8,6 +8,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +33,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProfileView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ImageButton mProfileImage;
@@ -42,6 +47,13 @@ public class ProfileView extends AppCompatActivity
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabase1;
     private Query mQuery;
+
+    private List<TransactionProfileCards> transactionProfileCardsList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private TransactionProfileCardsAdapter mTransProfileAdapter;
+
+    private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabaseTransRef;
+
 
     private DatabaseReference mDatabaseUsers;
     private StorageReference mStorage;
@@ -55,6 +67,53 @@ public class ProfileView extends AppCompatActivity
         setContentView(R.layout.activity_profile_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        mTransProfileAdapter = new TransactionProfileCardsAdapter(transactionProfileCardsList);
+
+        recyclerView.setHasFixedSize(true);
+
+        // vertical RecyclerView
+        // keep movie_list_row.xml width to `match_parent`
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+        // horizontal RecyclerView
+        // keep movie_list_row.xml width to `wrap_content`
+        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        // adding inbuilt divider line
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+        // adding custom divider line with padding 16dp
+        // recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.HORIZONTAL, 16));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        recyclerView.setAdapter(mTransProfileAdapter);
+
+        // row click listener
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                TransactionProfileCards transactionProfileCards = transactionProfileCardsList.get(position);
+                Toast.makeText(getApplicationContext(), transactionProfileCards.getPayee() + " is selected!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        prepareTransProfileData();
+
+
+
+
+
         mProfileImage =(ImageButton) findViewById(R.id.profilePicButton);
 
 
@@ -126,7 +185,24 @@ public class ProfileView extends AppCompatActivity
         }
     }
 
+    private void prepareTransProfileData() {
+        TransactionProfileCards transactionProfileCards = new TransactionProfileCards("Jainam", "Action & Adventure", "2015");
+        transactionProfileCardsList.add(transactionProfileCards);
 
+        transactionProfileCards = new TransactionProfileCards("Yash", "Animation, Kids & Family", "2015");
+        transactionProfileCardsList.add(transactionProfileCards);
+
+        transactionProfileCards = new TransactionProfileCards("Yash", "Action", "20150");
+        transactionProfileCardsList.add(transactionProfileCards);
+
+        transactionProfileCards = new TransactionProfileCards("Shaun", "Animation", "-2015");
+        transactionProfileCardsList.add(transactionProfileCards);
+
+
+        // notify adapter about data set changes
+        // so that it will render the list with new data
+        mTransProfileAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
