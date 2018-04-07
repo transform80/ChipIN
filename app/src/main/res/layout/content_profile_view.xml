@@ -8,15 +8,17 @@
     tools:context="com.dcnproject.yashdani.chipin.ProfileView"
     tools:showIn="@layout/app_bar_profile_view">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/gradient"
         android:orientation="vertical">
 
         <ImageButton
             android:id="@+id/profilePicButton"
             android:layout_width="130dp"
             android:layout_height="130dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="115dp"
             android:textAlignment="center"
             app:srcCompat="@mipmap/ic_person_white_36dp"
@@ -27,70 +29,44 @@
             android:id="@+id/profileNameTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:text="Name"
+            android:layout_below="@+id/profilePicButton"
             android:textSize="30sp"
             android:layout_marginTop="15dp"
             android:textAlignment="center"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="#fff"/>
 
         <TextView
             android:id="@+id/profileEmailTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/profileNameTv"
+            android:layout_centerHorizontal="true"
             android:text="xyz@gmail.com"
             android:layout_marginTop="5dp"
             android:textSize="15sp"
             android:textAlignment="center"
-            android:textColor="@color/colorBlack"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="31sp"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp">
+            android:textColor="#FFF"/>
 
             <TextView
                 android:id="@+id/textView18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Outstanding Amounts:"
-                android:textColor="@color/colorBlack"
+                android:text="Outstanding Amounts"
+                android:textColor="#fff"
+                android:textStyle="bold"
                 android:textSize="20sp"
+                android:layout_below="@+id/profileEmailTv"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="4dp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginRight="4dp"/>
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginTop="290dp">
-    <include layout="@layout/activity_rec_main"/>
-    <!--    <ImageView
-            android:id="@+id/profilePic"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            app:srcCompat="?android:attr/listChoiceIndicatorSingle" />
-
-        <TextView
-            android:id="@+id/memberNameEt"
-            android:layout_width="wrap_content"
+        <include layout="@layout/activity_rec_main"
+            android:layout_below="@+id/textView18"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:layout_marginRight="10dp"
-            android:textSize="18sp"
-            android:ems="10"
-            android:textColor="@color/colorBlack"
-            android:text="Name" />
--->
-    </LinearLayout>
+            android:layout_width="match_parent"/>
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
 

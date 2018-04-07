@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient"
     tools:context="com.dcnproject.yashdani.chipin.GroupView">
 
     <RelativeLayout
@@ -14,18 +15,15 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="25dp"
             android:layout_marginEnd="25dp"
             android:clickable="true"
             android:elevation="10dp"
-            app:borderWidth="0dp"
-            android:backgroundTint="@color/colorHighlightG"
-            android:background="@mipmap/ic_fingerprint_white_24dp"
-            android:src="@mipmap/ic_add_white_36dp"
+            android:background="@mipmap/ic_add_white_36dp"
             app:fabSize="normal"/>
     </RelativeLayout>
 

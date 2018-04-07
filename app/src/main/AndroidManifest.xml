@@ -27,7 +27,6 @@
             android:name=".HomePageWithNav"
             android:label="Home Page"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SettingsActivity" />
         <activity
             android:name=".AddTransactionWithNav"
             android:label="Add Transaction"
@@ -35,10 +34,6 @@
         <activity
             android:name=".AddGroupWithNav"
             android:label="Add Group"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".SettingsWithNav"
-            android:label="Settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".GroupView"

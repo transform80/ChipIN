@@ -20,11 +20,12 @@
             android:text="Add Transaction"
             android:textColor="#ffffff"
             android:layout_marginLeft="20dp"
+            android:textStyle="bold"
             android:layout_marginRight="20dp"
             android:layout_centerHorizontal="true"
             android:textAllCaps="true"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:layout_marginTop="20dp"/>
 
         <TextView
@@ -34,6 +35,7 @@
             android:layout_marginTop="20dp"
             android:layout_below="@id/textView9"
             android:textSize="22sp"
+            android:textStyle="bold"
             android:textColor="#ffffff"
             android:text="Select Group"
             android:layout_alignEnd="@id/textView9"
@@ -42,6 +44,7 @@
         <Spinner
             android:id="@+id/groupSpinner"
             android:layout_below="@id/textView13"
+            android:backgroundTint="#fff"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select Member"
+            android:textStyle="bold"
             android:layout_alignEnd="@id/textView9"
             android:layout_alignStart="@id/textView9"
             android:textColor="#ffffff"
@@ -66,6 +70,7 @@
         <Spinner
             android:id="@+id/memberSpinner"
             android:layout_width="wrap_content"
+            android:backgroundTint="#fff"
             android:layout_alignEnd="@id/textView9"
             android:layout_alignStart="@id/textView9"
             android:layout_below="@id/textView14"
@@ -81,6 +86,7 @@
             android:layout_alignStart="@id/textView9"
             android:layout_height="wrap_content"
             android:layout_below="@id/memberSpinner"
+            android:textStyle="bold"
             android:text="Enter Amount(in Rupees):"
             android:textSize="22sp"
             android:textColor="#ffffff"/>
@@ -88,9 +94,9 @@
         <EditText
             android:id="@+id/amountEt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20sp"
             android:ems="10"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:layout_alignEnd="@id/textView9"
             android:layout_alignStart="@id/textView9"
             android:textColor="#ffffff"
@@ -110,6 +116,7 @@
             android:layout_alignStart="@id/textView9"
             android:layout_height="wrap_content"
             android:text="Entry Info:"
+            android:textStyle="bold"
             android:layout_below="@id/amountEt"
             android:layout_marginTop="18sp"
             android:textColor="#ffffff"
@@ -119,7 +126,7 @@
         <EditText
             android:id="@+id/descEt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20sp"
             android:ems="10"
             android:drawableLeft="@mipmap/ic_description_white_24dp"
             android:layout_below="@id/textView10"
@@ -132,36 +139,20 @@
             android:background="#11000000"
             android:textColorHint="#ffffff"
             android:hint=" Description"
-            android:textSize="18sp"/>
+            android:textSize="14sp"/>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            app:cardBackgroundColor="@color/colorAccent"
-            app:cardCornerRadius="25dp"
-            app:cardElevation="10dp"
-            android:layout_below="@id/descEt"
-            android:id="@+id/cardView"
-            android:layout_marginTop="40sp"
-            android:layout_marginBottom="31dp"
-            android:layout_above="@+id/signup"
-            android:layout_centerHorizontal="true">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:id="@+id/submit_trans"
-                    android:layout_width="240dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="ADD"
-                    android:background="@color/colorAccent"
-                    android:textColor="#fff"
-                    android:textSize="18sp" />
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
+        <Button
+            android:id="@+id/submit_trans"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="56dp"
+            android:background="@drawable/pink_buttons"
+            android:text="ADD"
+            android:textColor="#fff"
+            android:textSize="18sp" />
        <!-- <Button
             android:id="@+id/submit_trans"
             android:layout_width="150dp"

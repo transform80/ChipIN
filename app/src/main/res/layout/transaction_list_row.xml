@@ -5,7 +5,7 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="#3a7079"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:textColor="@color/title"
+            android:textColor="#fff"
             android:textSize="16dp"
             android:textStyle="bold" />
 
@@ -27,6 +27,7 @@
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#fff"
             android:layout_below="@id/payee" />
 
         <TextView
@@ -34,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textColor="@color/year"
+            android:textColor="#fff"
             android:text="Rs."/>
 
     </RelativeLayout>

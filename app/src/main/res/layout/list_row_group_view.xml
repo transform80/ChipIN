@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="10dp"
+    android:background="@drawable/gradient_splash">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:background="#3a7079"
         >
 
         <ImageView
@@ -34,7 +36,7 @@
             android:layout_marginRight="10dp"
             android:textSize="18sp"
             android:ems="10"
-            android:textColor="@color/colorBlack"
+            android:textColor="#fff"
             android:text="Name" />
 
     </LinearLayout>

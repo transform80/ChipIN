@@ -7,54 +7,86 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_marginTop="60dp"
+    android:background="@drawable/gradient"
     tools:context="com.dcnproject.yashdani.chipin.AddGroupWithNav">
 
 
 <LinearLayout
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
-android:orientation="horizontal">
+android:orientation="horizontal"
+    android:layout_marginTop="20dp">
 
-<TextView
-    android:layout_width="233dp"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:text="TextView"
-    tools:text="Group Name" />
+    <TextView
+        android:layout_width="265dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="#fff"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        tools:text="Group Name" />
 
-<EditText
-    android:id="@+id/gnameEt"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:hint="Group Name" />
+    <EditText
+        android:id="@+id/gnameEt"
+        android:layout_width="fill_parent"
+        android:layout_height="30sp"
+        android:drawableLeft="@mipmap/ic_group_white_36dp"
+        android:layout_weight="1"
+        android:textSize="15sp"
+        android:textColor="#fff"
+        android:layout_marginLeft="10dp"
+        android:textColorHint="#fff"
+        android:hint="Group Name"
+        android:textAlignment="center"
+        android:background="#11000000"/>
 </LinearLayout>
 
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
 
-<TextView
-    android:layout_width="233dp"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:text="Number of Participants" />
+        <TextView
+            android:layout_width="261dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="No. of Members"
+            android:textColor="#fff"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:textStyle="bold" />
 
-<EditText
-    android:id="@+id/numEt"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:hint="Enter Number of participants" />
-</LinearLayout>
+        <EditText
+            android:id="@+id/numEt"
+            android:layout_marginLeft="10dp"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="18dp"
+            android:layout_height="30sp"
+            android:textColorHint="#fff"
+            android:textSize="15sp"
+            android:background="#11000000"
+            android:textColor="#fff"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:hint="Enter No. of Members" />
+    </LinearLayout>
 
 
 <Button
 android:id="@+id/confirm_btn"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Confirm" />
+android:layout_width="150dp"
+    android:layout_marginLeft="120dp"
+android:layout_marginTop="20dp"
+android:layout_height="50dp"
+    android:textColor="#fff"
+android:text="Confirm"
+android:background="@drawable/pink_buttons" />
 
     </LinearLayout>
 
