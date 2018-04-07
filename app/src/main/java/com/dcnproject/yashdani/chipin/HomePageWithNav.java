@@ -154,14 +154,6 @@ public class HomePageWithNav extends AppCompatActivity
        /* mList = (RecyclerView) findViewById(R.id.groupList);
         mList.setLayoutManager(new LinearLayoutManager(this));*/
 
-
-
-
-
-
-
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -171,14 +163,24 @@ public class HomePageWithNav extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomePageWithNav.this,ProfileView.class));
+            }
+        });
         final TextView mNameNavHeader = (TextView) headerView.findViewById(R.id.nameNavHeaderTv);
         TextView mEmailNavHeader = (TextView) headerView.findViewById(R.id.emailNavHeaderTv);
+        final ImageView mProfileImage = (ImageView) headerView.findViewById(R.id.imageView);
         if(mUser != null){
         mEmailNavHeader.setText(mUser.getEmail());
-        mDatabaseUsrRef.child(mUser.getUid()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabaseUsrRef.child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mNameNavHeader.setText(dataSnapshot.getValue().toString());
+                mNameNavHeader.setText(dataSnapshot.child("name").getValue().toString());
+                if(dataSnapshot.child("image").getValue().toString() != "default") {
+                    Picasso.with(getApplicationContext()).load(dataSnapshot.child("image").getValue().toString()).into(mProfileImage);
+                }
             }
 
             @Override
