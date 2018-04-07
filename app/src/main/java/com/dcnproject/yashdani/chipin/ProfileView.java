@@ -46,7 +46,8 @@ public class ProfileView extends AppCompatActivity
     List<String> GUID_List = new ArrayList<>();
     List<String> Groups_User_List = new ArrayList<>();
     List<String> Groups_Transactions = new ArrayList<>();
-    List<String> Users_Transactions = new ArrayList<>( );
+    List<String> Users_Transactions = new ArrayList<>();
+    List<String> Users_uid = new ArrayList<>();
 
     private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabaseTransRef;
 
@@ -82,6 +83,12 @@ public class ProfileView extends AppCompatActivity
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
         mDatabaseTransRef = FirebaseDatabase.getInstance().getReference().child("Transactions");
+        mAuth = FirebaseAuth.getInstance();
+        //mList.hasFixedSize(true);
+        mUser = mAuth.getCurrentUser();
+        UID = mUser.getUid();
+        mDatabase1 = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        mStorage  = FirebaseStorage.getInstance().getReference().child("ProfilePictures");
 
         mTransProfileAdapter = new TransactionProfileCardsAdapter(transactionProfileCardsList);
 
@@ -111,11 +118,20 @@ public class ProfileView extends AppCompatActivity
             @Override
             public void onClick(View view, int position) {
                 TransactionProfileCards transactionProfileCards = transactionProfileCardsList.get(position);
+                if(Float.parseFloat(transactionProfileCards.getAmount()) < 0){
+                    Intent pay = new Intent(ProfileView.this,PopPay.class);
+                    pay.putExtra("Key",Users_uid.get(position));
+                    pay.putExtra("Name",transactionProfileCards.getPayee());
+                    pay.putExtra("Amount",transactionProfileCards.getAmount());
+                    pay.putExtra("UID",UID);
+                    startActivity(pay);
+                }
                 Toast.makeText(getApplicationContext(), transactionProfileCards.getPayee() + " is selected!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLongClick(View view, int position) {
+
 
             }
         }));
@@ -123,12 +139,7 @@ public class ProfileView extends AppCompatActivity
         mProfileImage =(ImageButton) findViewById(R.id.profilePicButton);
 
 
-                mAuth = FirebaseAuth.getInstance();
-                //mList.hasFixedSize(true);
-                mUser = mAuth.getCurrentUser();
-                UID = mUser.getUid();
-                mDatabase1 = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
-                mStorage  = FirebaseStorage.getInstance().getReference().child("ProfilePictures");
+
         prepareTransProfileData();
 
 
@@ -334,6 +345,7 @@ public class ProfileView extends AppCompatActivity
                         @Override
                         public void onDataChange(DataSnapshot names) {
                             String user_name = names.child("name").getValue().toString();
+                            Users_uid.add(name);
                             transactionProfileCardsList.add(new TransactionProfileCards(user_name,trans,amount));
                             mTransProfileAdapter.notifyDataSetChanged();
 
@@ -403,11 +415,7 @@ public class ProfileView extends AppCompatActivity
             Intent addTransIntent = new Intent(ProfileView.this,AddTransactionWithNav.class);
             startActivity(addTransIntent);
 
-        } else if (id == R.id.nav_settings) {
-            Intent settingIntent = new Intent(ProfileView.this,SettingsActivity.class);
-            startActivity(settingIntent);
-
-        } else if (id == R.id.nav_logout) {
+        }  else if (id == R.id.nav_logout) {
             Intent logoutIntent = new Intent(ProfileView.this,LoginActivity.class);
             startActivity(logoutIntent);
             finish();

@@ -192,8 +192,9 @@ public class HomePageWithNav extends AppCompatActivity
 
             }
         });
-            prepareMovieData();
         }
+        prepareMovieData();
+
 
     }
 
@@ -256,10 +257,6 @@ public class HomePageWithNav extends AppCompatActivity
             Intent logoutIntent = new Intent(HomePageWithNav.this,LoginActivity.class);
             startActivity(logoutIntent);
             finish();
-        } else if (id == R.id.nav_settings) {
-            Intent settingIntent = new Intent(HomePageWithNav.this,SettingsActivity.class);
-            startActivity(settingIntent);
-
         } else if (id == R.id.nav_home) {
 
         }

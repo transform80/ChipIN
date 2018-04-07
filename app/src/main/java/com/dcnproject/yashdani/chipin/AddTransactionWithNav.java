@@ -2,6 +2,7 @@ package com.dcnproject.yashdani.chipin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,7 +14,9 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import android.widget.EditText;
@@ -26,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +46,8 @@ public class AddTransactionWithNav extends AppCompatActivity
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabaseTransactions;
+    private boolean doubleBackToExitPressedOnce = false;
+
     final List<String> payeeList = new ArrayList<>();
     final List<String> payeeUIDList = new ArrayList<>();
     List<String> Users_group_list = new ArrayList<>();
@@ -84,15 +90,54 @@ public class AddTransactionWithNav extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
+        View headerView = navigationView.getHeaderView(0);
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),ProfileView.class));
+            }
+        });
+        final TextView mNameNavHeader = (TextView) headerView.findViewById(R.id.nameNavHeaderTv);
+        TextView mEmailNavHeader = (TextView) headerView.findViewById(R.id.emailNavHeaderTv);
+        final ImageView mProfileImage = (ImageView) headerView.findViewById(R.id.imageView);
+        if(mUser != null){
+            mEmailNavHeader.setText(mUser.getEmail());
+            mDatabaseUsrRef.child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    mNameNavHeader.setText(dataSnapshot.child("name").getValue().toString());
+                    if(dataSnapshot.child("image").getValue().toString() != "default") {
+                        Picasso.with(getApplicationContext()).load(dataSnapshot.child("image").getValue().toString()).into(mProfileImage);
+                    }
+                }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                startActivity(new Intent(getApplicationContext(),HomePageWithNav.class));
+                return;
+            }
+            doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
         }
     }
 
@@ -124,10 +169,6 @@ public class AddTransactionWithNav extends AppCompatActivity
             startActivity(addgroupIntent);
             finish();
         } else if (id == R.id.nav_transaction) {
-
-        } else if (id == R.id.nav_settings) {
-            Intent settingIntent = new Intent(AddTransactionWithNav.this,SettingsActivity.class);
-            startActivity(settingIntent);
 
         } else if (id == R.id.nav_logout) {
             Intent logoutIntent = new Intent(AddTransactionWithNav.this,LoginActivity.class);

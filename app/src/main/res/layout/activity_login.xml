@@ -24,7 +24,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            app:srcCompat="@drawable/chipinLogo2" />
+            app:srcCompat="@drawable/chipin_logo2" />
 
         <EditText
             android:id="@+id/loginEmailField"

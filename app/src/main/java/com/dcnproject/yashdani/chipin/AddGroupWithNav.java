@@ -2,6 +2,7 @@ package com.dcnproject.yashdani.chipin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,15 +16,20 @@ import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +41,14 @@ public class AddGroupWithNav extends AppCompatActivity
     private Button confirm;
 
     private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
+
     private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef;
     private FirebaseDatabase mDatabase;
     private static String finalUID;
     private String tempUID = null;
+    private boolean doubleBackToExitPressedOnce = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +61,10 @@ public class AddGroupWithNav extends AppCompatActivity
 
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
+
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +85,33 @@ public class AddGroupWithNav extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),ProfileView.class));
+            }
+        });
+        final TextView mNameNavHeader = (TextView) headerView.findViewById(R.id.nameNavHeaderTv);
+        TextView mEmailNavHeader = (TextView) headerView.findViewById(R.id.emailNavHeaderTv);
+        final ImageView mProfileImage = (ImageView) headerView.findViewById(R.id.imageView);
+        if(mUser != null){
+            mEmailNavHeader.setText(mUser.getEmail());
+            mDatabaseUsrRef.child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    mNameNavHeader.setText(dataSnapshot.child("name").getValue().toString());
+                    if(dataSnapshot.child("image").getValue().toString() != "default") {
+                        Picasso.with(getApplicationContext()).load(dataSnapshot.child("image").getValue().toString()).into(mProfileImage);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -79,7 +120,20 @@ public class AddGroupWithNav extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                startActivity(new Intent(getApplicationContext(),HomePageWithNav.class));
+                return;
+            }
+            doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
         }
     }
 
@@ -112,11 +166,7 @@ public class AddGroupWithNav extends AppCompatActivity
             Intent addtransIntent = new Intent(AddGroupWithNav.this,AddTransactionWithNav.class);
             startActivity(addtransIntent);
             finish();
-        } else if (id == R.id.nav_settings) {
-            Intent settingIntent = new Intent(AddGroupWithNav.this,SettingsActivity.class);
-            startActivity(settingIntent);
-
-        } else if (id == R.id.nav_logout) {
+        }  else if (id == R.id.nav_logout) {
             mAuth.signOut();
             Intent logoutIntent = new Intent(AddGroupWithNav.this,LoginActivity.class);
             startActivity(logoutIntent);

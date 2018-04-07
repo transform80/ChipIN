@@ -15,7 +15,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/chipinLogo1"
+            android:src="@drawable/chipin_logo1"
             android:id="@+id/logotimepass"/>
 
 
