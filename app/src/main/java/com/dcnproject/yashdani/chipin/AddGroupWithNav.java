@@ -1,6 +1,7 @@
 package com.dcnproject.yashdani.chipin;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -213,11 +214,15 @@ public class AddGroupWithNav extends AppCompatActivity
             ed = new EditText(AddGroupWithNav.this);
             ed.setHint("Username of participant "+ (i+1));
             allEds.add(ed);
+            ed.setTextColor(getResources().getColor(R.color.White));
+            ed.setBackgroundColor(getResources().getColor(R.color.trans));
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams(width, WindowManager.LayoutParams.WRAP_CONTENT);
             l.addView(ed,lp);
         }
         Button bt = new Button(AddGroupWithNav.this);
         bt.setText("Confirm Participants");
+        Drawable drawable = getResources().getDrawable(R.drawable.pink_buttons);
+        bt.setBackgroundDrawable(drawable);
         final String[] strings = new String[(allEds.size())];
 
         l.addView(bt);

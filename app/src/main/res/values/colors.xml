@@ -15,6 +15,8 @@
     <color name="colorPLightG">#00BBF0</color>
     <color name="colorHighlightG">#FDB44B</color>
     <color name="colorWhite">#FCFCFC</color>
+    <color name="White">#fff</color>
+    <color name="trans">#11000000</color>
     <color name="colorMain">#83FFE6</color>
     <color name="colorStrips">#FF5F5F</color>
     <color name="colorFill">#2C2C2C</color>
