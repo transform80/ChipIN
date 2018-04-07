@@ -17,9 +17,9 @@
             android:title="Add transaction"
             android:icon="@android:drawable/ic_input_add"></item>
         <item
-            android:id="@+id/nav_settings"
+            android:id="@+id/nav_add_balance"
             android:icon="@drawable/settings"
-            android:title="Settings" />
+            android:title="Add Balance" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"

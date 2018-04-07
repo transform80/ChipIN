@@ -68,7 +68,7 @@ public class PopPay extends Activity {
                 mDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        float current_balance = (float) dataSnapshot.child("user_balance").getValue();
+                        double current_balance = Double.parseDouble(dataSnapshot.child("user_balance").getValue().toString());
                         if(current_balance > amount_float){
                             current_balance -= amount_float;
                             mDatabase.child("user_balance").setValue(current_balance);

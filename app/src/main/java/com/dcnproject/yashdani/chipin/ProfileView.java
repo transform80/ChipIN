@@ -3,6 +3,7 @@ package com.dcnproject.yashdani.chipin;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,9 @@ public class ProfileView extends AppCompatActivity
     List<String> Groups_Transactions = new ArrayList<>();
     List<String> Users_Transactions = new ArrayList<>();
     List<String> Users_uid = new ArrayList<>();
+
+    private boolean doubleBackToExitPressedOnce = false;
+
 
     private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabaseTransRef;
 
@@ -193,6 +198,33 @@ public class ProfileView extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),ProfileView.class));
+            }
+        });
+        final TextView mNameNavHeader = (TextView) headerView.findViewById(R.id.nameNavHeaderTv);
+        TextView mEmailNavHeader = (TextView) headerView.findViewById(R.id.emailNavHeaderTv);
+        final ImageView mProfileImage = (ImageView) headerView.findViewById(R.id.imageView);
+        if(mUser != null){
+            mEmailNavHeader.setText(mUser.getEmail());
+            mDatabaseUsrRef.child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    mNameNavHeader.setText(dataSnapshot.child("name").getValue().toString());
+                    if(dataSnapshot.child("image").getValue().toString() != "default") {
+                        Picasso.with(getApplicationContext()).load(dataSnapshot.child("image").getValue().toString()).into(mProfileImage);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -201,7 +233,20 @@ public class ProfileView extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                startActivity(new Intent(getApplicationContext(),HomePageWithNav.class));
+                return;
+            }
+            doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
         }
     }
 
@@ -422,6 +467,11 @@ public class ProfileView extends AppCompatActivity
         } else if (id == R.id.nav_home) {
             Intent homeIntent = new Intent(ProfileView.this,HomePageWithNav.class);
             startActivity(homeIntent);
+            finish();
+        }
+        else if (id == R.id.nav_add_balance) {
+            Intent logoutIntent = new Intent(ProfileView.this,AddBalanceActivity.class);
+            startActivity(logoutIntent);
             finish();
         }
 

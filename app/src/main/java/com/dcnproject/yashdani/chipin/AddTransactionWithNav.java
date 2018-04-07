@@ -179,6 +179,11 @@ public class AddTransactionWithNav extends AppCompatActivity
             startActivity(homeIntent);
             finish();
         }
+        else if (id == R.id.nav_add_balance) {
+            Intent logoutIntent = new Intent(getApplicationContext(),AddBalanceActivity.class);
+            startActivity(logoutIntent);
+            finish();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
