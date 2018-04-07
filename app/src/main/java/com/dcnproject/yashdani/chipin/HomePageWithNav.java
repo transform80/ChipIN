@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Movie;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import android.os.Bundle;
@@ -51,6 +52,9 @@ public class HomePageWithNav extends AppCompatActivity
     private static final String IS_LOGIN = "IsLoggedIn";
     private static final String KEY_NAME = "name";
     private static final String KEY_EMAIL = "email";
+    private boolean doubleBackToExitPressedOnce = false;
+
+
     private TextView mWelcome;
     List<String> Users_group_list = new ArrayList<>();
     List<String> GUID_List = new ArrayList<>();
@@ -199,7 +203,20 @@ public class HomePageWithNav extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+            doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
         }
     }
 
