@@ -249,9 +249,6 @@ public class ProfileView extends AppCompatActivity
             }, 2000);
         }
     }
-
-
-
     private void prepareTransData() {
 
         showToast("Preparing users data1");
@@ -272,8 +269,6 @@ public class ProfileView extends AppCompatActivity
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 showToast("Adding groups tarms");
                                 for (DataSnapshot trans : dataSnapshot.getChildren()) {
-                                    //showToast("Preparing users data3");
-                                    //showToast(trans.child("GUID").getValue().toString());
                                     try {
                                         Groups_Transactions.add(trans.getKey().toString());
                                         String name = trans.child("Payee").getValue().toString();
@@ -283,95 +278,21 @@ public class ProfileView extends AppCompatActivity
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-                                    //showToast(String.valueOf(transactionGroupList.size()));
-
-
-
-
                                 }
                                 mTransProfileAdapter.notifyDataSetChanged();
-
-
                             }
-
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
-
                             }
                         });
-
-
-
                     }
                 }
-/*
-                mAdapter.notifyDataSetChanged();
-*/
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
-        //showToast("Preparing users data1");
-
-        /*TransactionGroup transactionGroup = new TransactionGroup("Jainam", "Action & Adventure", "2000");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Ansh", "Animation, Kids & Family", "2015");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Aman", "Action", "5000");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Yash", "Animation", "4000");
-        transactionGroupList.add(transactionGroup);
-
-        *//*transactionGroup = new TransactionGroup("The Martian", "Science Fiction & Fantasy", "2015");
-        transactionGroupList.add(transactionGroup);*//*
-
-        *//*transactionGroup = new TransactionGroup("Mission: Impossible Rogue Nation", "Action", "2015");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Up", "Animation", "2009");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Star Trek", "Science Fiction", "2009");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("The LEGO TransactionGroup", "Animation", "2014");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Iron Man", "Action & Adventure", "2008");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Aliens", "Science Fiction", "1986");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Chicken Run", "Animation", "2000");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Back to the Future", "Science Fiction", "1985");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Raiders of the Lost Ark", "Action & Adventure", "1981");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Goldfinger", "Action & Adventure", "1965");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014");
-        transactionGroupList.add(transactionGroup);*//*
-
-        // notify adapter about data set changes
-        // so that it will render the list with new data
-        mAdapter.notifyDataSetChanged();*/
-    }
-
-
-
+         }
     private void prepareTransProfileData() {
         mDatabaseUsrRef.child(mAuth.getCurrentUser().getUid()).child("Balance").addValueEventListener(new ValueEventListener() {
             @Override
@@ -405,31 +326,11 @@ public class ProfileView extends AppCompatActivity
 
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
-        /*TransactionProfileCards transactionProfileCards = new TransactionProfileCards("Jainam", "Action & Adventure", "2015");
-        transactionProfileCardsList.add(transactionProfileCards);
-
-        transactionProfileCards = new TransactionProfileCards("Yash", "Animation, Kids & Family", "2015");
-        transactionProfileCardsList.add(transactionProfileCards);
-
-        transactionProfileCards = new TransactionProfileCards("Yash", "Action", "20150");
-        transactionProfileCardsList.add(transactionProfileCards);
-
-        transactionProfileCards = new TransactionProfileCards("Shaun", "Animation", "-2015");
-        transactionProfileCardsList.add(transactionProfileCards);
-
-
-        // notify adapter about data set changes
-        // so that it will render the list with new data
-        mTransProfileAdapter.notifyDataSetChanged();*/
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -450,8 +351,6 @@ public class ProfileView extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-
         if (id == R.id.nav_group) {
             Intent addgroupIntent = new Intent(ProfileView.this,AddGroupWithNav.class);
             startActivity(addgroupIntent);
@@ -474,12 +373,10 @@ public class ProfileView extends AppCompatActivity
             startActivity(logoutIntent);
             finish();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -493,20 +390,13 @@ public class ProfileView extends AppCompatActivity
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     final Uri DownloadUrl = taskSnapshot.getDownloadUrl();
                     mDatabase1.child("image").setValue(DownloadUrl.toString().trim());
-
-
-
                 }
             });
         }
-
-
-
     }
     public void showToast(String message)
     {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();
     }
-
 }

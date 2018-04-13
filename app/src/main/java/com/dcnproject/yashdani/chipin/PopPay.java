@@ -27,23 +27,18 @@ public class PopPay extends Activity {
     private Button yes_delete;
     private Button cancel_delete;
     private FirebaseAuth mAuth;
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.pop_pay);
         key = getIntent().getStringExtra("Key");
         name = getIntent().getStringExtra("Name");
         amount = getIntent().getStringExtra("Amount");
         UID = getIntent().getStringExtra("UID");
         mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(UID);
-
         final float amount_float = Float.parseFloat(amount) * -1;
         TextView mPayeeDetails = (TextView) findViewById(R.id.payee_details);
         mPayeeDetails.setText("Pay " + amount_float + " to " + name);
-
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 

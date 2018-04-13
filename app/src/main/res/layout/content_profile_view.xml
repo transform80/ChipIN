@@ -30,7 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Name"
+            android:hint="Name"
+            android:textColorHint="#fff"
             android:layout_below="@+id/profilePicButton"
             android:textSize="30sp"
             android:layout_marginTop="15dp"
@@ -43,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/profileNameTv"
             android:layout_centerHorizontal="true"
-            android:text="xyz@gmail.com"
+            android:hint="xyz@gmail.com"
+            android:textColorHint="#fff"
             android:layout_marginTop="5dp"
             android:textSize="15sp"
             android:textAlignment="center"
@@ -65,7 +67,8 @@
         <include layout="@layout/activity_rec_main"
             android:layout_below="@+id/textView18"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"/>
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"/>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

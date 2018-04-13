@@ -71,35 +71,29 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
         super.onPostResume();
         getDelegate().onPostResume();
     }
-
     @Override
     protected void onTitleChanged(CharSequence title, int color) {
         super.onTitleChanged(title, color);
         getDelegate().setTitle(title);
     }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         getDelegate().onConfigurationChanged(newConfig);
     }
-
     @Override
     protected void onStop() {
         super.onStop();
         getDelegate().onStop();
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         getDelegate().onDestroy();
     }
-
     public void invalidateOptionsMenu() {
         getDelegate().invalidateOptionsMenu();
     }
-
     private AppCompatDelegate getDelegate() {
         if (mDelegate == null) {
             mDelegate = AppCompatDelegate.create(this, null);

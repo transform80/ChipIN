@@ -9,7 +9,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/chipinlogo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -26,39 +26,43 @@
         <activity
             android:name=".HomePageWithNav"
             android:label="Home Page"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:icon="@drawable/chipin_logo1"/>
         <activity
             android:name=".AddTransactionWithNav"
-            android:label="Add Transaction"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:icon="@drawable/chipin_logo1"/>
         <activity
             android:name=".AddGroupWithNav"
             android:label="Add Group"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:icon="@drawable/chipin_logo1"/>
         <activity
             android:name=".GroupView"
-            android:icon="@drawable/back"
-            android:label="Group Name" />
+            android:icon="@drawable/chipin_logo1"
+            />
         <activity
             android:name=".AddTransaction"
             android:icon="@drawable/back"
             android:label="Group Name" />
         <activity
             android:name=".ViewContactInGroup"
-            android:icon="@drawable/back" />
+            android:icon="@drawable/chipin_logo1" />
         <activity
             android:name=".AddMemberInGroup"
-            android:icon="@drawable/back"
+            android:icon="@drawable/chipin_logo1"
             android:label="Add Members" />
         <activity
             android:name=".PopPay"
             android:icon="@drawable/back"
-            android:label="Add Members" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ProfileView"
+            android:icon="@drawable/chipin_logo1"
             android:label="@string/title_activity_profile_view"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddBalanceActivity"></activity>
+        <activity android:name=".AddBalanceActivity"
+            android:icon="@drawable/chipin_logo1"/>
     </application>
 
 </manifest>

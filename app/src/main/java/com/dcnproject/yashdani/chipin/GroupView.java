@@ -36,30 +36,20 @@ public class GroupView extends AppCompatActivity {
     private String GUID ;
     List<String> Groups_Transactions = new ArrayList<>();
     int iterator = 0;
-
-
-
     private List<TransactionGroup> transactionGroupList = new ArrayList<>();
     private RecyclerView recyclerView;
     private TransactionGroupAdapter mAdapter;
     private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabaseTransRef;
-
-
-
-
     private FloatingActionButton mAddTrans;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_view);
         GUID = getIntent().getStringExtra("GUID").trim();
-
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
         mDatabaseTransRef = FirebaseDatabase.getInstance().getReference().child("Transactions");
-
         mAddTrans = (FloatingActionButton) findViewById(R.id.fab);
-
         mAddTrans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,28 +58,20 @@ public class GroupView extends AppCompatActivity {
                 startActivity(groupTrans);
             }
         });
-
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
         mAdapter = new TransactionGroupAdapter(transactionGroupList);
-
         recyclerView.setHasFixedSize(true);
-
         // vertical RecyclerView
         // keep movie_list_row.xml width to `match_parent`
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-
         // horizontal RecyclerView
         // keep movie_list_row.xml width to `wrap_content`
-        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-
         recyclerView.setLayoutManager(mLayoutManager);
 
         // adding inbuilt divider line
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         // adding custom divider line with padding 16dp
-        // recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.HORIZONTAL, 16));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         recyclerView.setAdapter(mAdapter);
@@ -116,15 +98,12 @@ public class GroupView extends AppCompatActivity {
 
 
     private void prepareTransactionData() {
-        //showToast("Preparing users data1");
 
         mDatabaseTransRef.orderByChild("GUID").equalTo(GUID).addValueEventListener(new ValueEventListener()
         {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot trans : dataSnapshot.getChildren()) {
-                    //showToast("Preparing users data3");
-                    //showToast(trans.child("GUID").getValue().toString());
                     try {
                         Groups_Transactions.add(trans.getKey().toString());
                         String name = trans.child("Payee").getValue().toString();
@@ -134,7 +113,6 @@ public class GroupView extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    //showToast(String.valueOf(transactionGroupList.size()));
 
 
 
@@ -150,58 +128,6 @@ public class GroupView extends AppCompatActivity {
 
             }
         });
-
-        /*TransactionGroup transactionGroup = new TransactionGroup("Jainam", "Action & Adventure", "2000");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Ansh", "Animation, Kids & Family", "2015");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Aman", "Action", "5000");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Yash", "Animation", "4000");
-        transactionGroupList.add(transactionGroup);
-
-        *//*transactionGroup = new TransactionGroup("The Martian", "Science Fiction & Fantasy", "2015");
-        transactionGroupList.add(transactionGroup);*//*
-
-        *//*transactionGroup = new TransactionGroup("Mission: Impossible Rogue Nation", "Action", "2015");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Up", "Animation", "2009");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Star Trek", "Science Fiction", "2009");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("The LEGO TransactionGroup", "Animation", "2014");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Iron Man", "Action & Adventure", "2008");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Aliens", "Science Fiction", "1986");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Chicken Run", "Animation", "2000");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Back to the Future", "Science Fiction", "1985");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Raiders of the Lost Ark", "Action & Adventure", "1981");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Goldfinger", "Action & Adventure", "1965");
-        transactionGroupList.add(transactionGroup);
-
-        transactionGroup = new TransactionGroup("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014");
-        transactionGroupList.add(transactionGroup);*//*
-
-        // notify adapter about data set changes
-        // so that it will render the list with new data
-        mAdapter.notifyDataSetChanged();*/
     }
 
     @Override

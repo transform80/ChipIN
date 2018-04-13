@@ -1,6 +1,7 @@
 package com.dcnproject.yashdani.chipin;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,20 +38,15 @@ import java.util.List;
 
 public class AddGroupWithNav extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     private EditText groupName,numOfMembers;
     private Button confirm;
-
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-
     private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef;
     private FirebaseDatabase mDatabase;
     private static String finalUID;
     private String tempUID = null;
     private boolean doubleBackToExitPressedOnce = false;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +110,6 @@ public class AddGroupWithNav extends AppCompatActivity
             });
         }
     }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -137,9 +132,6 @@ public class AddGroupWithNav extends AppCompatActivity
             }, 2000);
         }
     }
-
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -154,7 +146,6 @@ public class AddGroupWithNav extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -177,23 +168,16 @@ public class AddGroupWithNav extends AppCompatActivity
             startActivity(homeIntent);
             finish();
         }
-        else if (id == R.id.nav_add_balance) {
-            Intent logoutIntent = new Intent(getApplicationContext(),AddBalanceActivity.class);
-            startActivity(logoutIntent);
-            finish();
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
     public  void showToast(String message)
     {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();
     }
-
     public void addGroup(){
         confirm.setEnabled(false);
 
@@ -223,6 +207,7 @@ public class AddGroupWithNav extends AppCompatActivity
         bt.setText("Confirm Participants");
         Drawable drawable = getResources().getDrawable(R.drawable.pink_buttons);
         bt.setBackgroundDrawable(drawable);
+        bt.setTextColor(getResources().getColor(R.color.White));
         final String[] strings = new String[(allEds.size())];
 
         l.addView(bt);
@@ -232,8 +217,6 @@ public class AddGroupWithNav extends AppCompatActivity
                 for(int i=0; i < allEds.size(); i++){
                     strings[i] = allEds.get(i).getText().toString();
                 }
-
-
                 showToast("Button Clicked");
                 String gName = groupName.getText().toString(); // Gets the group name from the text field
                 String numP = numOfMembers.getText().toString(); // Gets the number of members in the group

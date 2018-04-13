@@ -7,27 +7,27 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
-   <!-- <style name="AircaseYellow" parent="AircaseYellow">
+<!--
+    <style name="AircaseYellow" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPDark">#375A7f</item>
         <item name="colorP">#4D7CAE</item>
         <item name="colorPLight">#6A99CB</item>
         <item name="colorHighlight">#FCFA70</item>
-    </style>
-
-    <style name="ThemeGeneric" parent="ThemeGeneric">
-        <item name="colorPDarkG">#00204A</item>
-        <item name="colorPG">#005792</item>
-        <item name="colorPLightG">#00BBF0</item>
-        <item name="colorHighlightG">#FDB44B</item>
-    </style>
-
-    <style name="BenettonPolo" parent="BenettonPolo">
-        <item name="colorWhite">#FCFCFC</item>
-        <item name="colorMain">#83FFE6</item>
-        <item name="colorStrips">#FF5F5F</item>
-        <item name="colorFill">#2C2C2C</item>
     </style>-->
+
+    <!-- <style name="ThemeGeneric" parent="ThemeGeneric">
+         <item name="colorPDarkG">#00204A</item>
+         <item name="colorPG">#005792</item>
+         <item name="colorPLightG">#00BBF0</item>
+         <item name="colorHighlightG">#FDB44B</item>
+     </style>
+
+     <style name="BenettonPolo" parent="BenettonPolo">
+         <item name="colorWhite">#FCFCFC</item>
+         <item name="colorMain">#83FFE6</item>
+         <item name="colorStrips">#FF5F5F</item>
+         <item name="colorFill">#2C2C2C</item>
+     </style>-->
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

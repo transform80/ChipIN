@@ -10,13 +10,11 @@ public class ContactCards {
 
     public ContactCards() {
     }
-
     public ContactCards(String name, String email, String display) {
         this.name = name;
         this.email = email;
         this.display = display;
         }
-
     public String getName() {
         return name;
     }

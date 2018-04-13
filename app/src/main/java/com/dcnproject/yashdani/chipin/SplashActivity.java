@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SplashActivity extends Activity {
-
     private static int SPLASH_TIME_OUT=3000;
     private ImageView mImage;
     @Override

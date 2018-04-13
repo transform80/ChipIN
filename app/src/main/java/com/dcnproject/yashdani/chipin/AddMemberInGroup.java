@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddMemberInGroup extends AppCompatActivity {
-
     private Button mAddMemberInGroup;
     private String mGroupID;
     private DatabaseReference mDatabaseGrpRef,mDatabaseUsrRef;
@@ -30,23 +29,17 @@ public class AddMemberInGroup extends AppCompatActivity {
         mGroupID = getIntent().getStringExtra("GUID");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups").child(mGroupID);
         mDatabaseUsrRef = FirebaseDatabase.getInstance().getReference().child("Users");
-
-
         mAddMemberInGroup =(Button) findViewById(R.id.addMemberInGroup);
         mAddMemberInGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addMember();
-
-
             }
         });
     }
-
     private void addMember(){
         EditText mEmail = (EditText) findViewById(R.id.addEmailField);
         final String email = mEmail.getText().toString().trim();
-
         mDatabaseUsrRef.orderByChild("email").equalTo(email).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -54,7 +47,6 @@ public class AddMemberInGroup extends AppCompatActivity {
                 showToast(dataSnapshot.getKey());
                     String user_ID = dataSnapshot.getKey();
                     if(email != null){
-
                         mDatabaseGrpRef.child("Users").child(user_ID).setValue(email);
                         mDatabaseGrpRef.child("Number of Members").addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -62,23 +54,17 @@ public class AddMemberInGroup extends AppCompatActivity {
                                 int num = Integer.parseInt(dataSnapshot_num.getValue().toString());
                                 num += 1;
                                 mDatabaseGrpRef.child("Number of Members").setValue(num);
-                                                            }
-
+                            }
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
-
                             }
                         });
                     }
-
                     Intent subtransIntent = new Intent(AddMemberInGroup.this, ViewContactInGroup.class);
                     subtransIntent.putExtra("GUID",mGroupID);
                     startActivity(subtransIntent);
                     finish();
-
                 }
-
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
@@ -99,18 +85,11 @@ public class AddMemberInGroup extends AppCompatActivity {
 
             }
         });
-
-
-
-
         showToast("Error : User may not exist");
-
         }
-
     public void showToast(String message)
     {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();
     }
-
 }

@@ -53,24 +53,17 @@ public class HomePageWithNav extends AppCompatActivity
     private static final String KEY_NAME = "name";
     private static final String KEY_EMAIL = "email";
     private boolean doubleBackToExitPressedOnce = false;
-
-
     private TextView mWelcome;
     List<String> Users_group_list = new ArrayList<>();
     List<String> GUID_List = new ArrayList<>();
-
     private List<com.dcnproject.yashdani.chipin.Movie> movieList = new ArrayList<>();
     private RecyclerView recyclerView;
     private MoviesAdapter mAdapter;
-
-
     /*private RecyclerView mList;*/
     private DatabaseReference mDatabaseUsrRef, mDatabaseGrpRef, mDatabaseTransRef;
     List<String> groupList = new ArrayList<>();
     int iterator = 0;
     private String current_user;
-
-
     // Shared pref mode
     int PRIVATE_MODE = 0;
     @Override
@@ -79,7 +72,6 @@ public class HomePageWithNav extends AppCompatActivity
         setContentView(R.layout.activity_home_page_with_nav);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         mAuth = FirebaseAuth.getInstance();
         mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
 
@@ -94,9 +86,6 @@ public class HomePageWithNav extends AppCompatActivity
                 }
             }
         });
-
-
-
         mUser = mAuth.getCurrentUser();
         if(mUser != null)
             current_user = mUser.getEmail();
@@ -117,15 +106,12 @@ public class HomePageWithNav extends AppCompatActivity
 
         // horizontal RecyclerView
         // keep movie_list_row.xml width to `wrap_content`
-        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-
         recyclerView.setLayoutManager(mLayoutManager);
 
         // adding inbuilt divider line
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         // adding custom divider line with padding 16dp
-        // recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.HORIZONTAL, 16));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         recyclerView.setAdapter(mAdapter);
@@ -155,8 +141,6 @@ public class HomePageWithNav extends AppCompatActivity
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = pref.edit();
 
-       /* mList = (RecyclerView) findViewById(R.id.groupList);
-        mList.setLayoutManager(new LinearLayoutManager(this));*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -270,8 +254,6 @@ public class HomePageWithNav extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
     public void createLoginSession(String name, String email) {
 
         editor.putBoolean(IS_LOGIN, true);
@@ -279,7 +261,6 @@ public class HomePageWithNav extends AppCompatActivity
         editor.putString(KEY_EMAIL, email);
         editor.commit();
     }
-
     public void checkLogin() {
 
         if (!this.isLoggedIn()) {
@@ -290,13 +271,11 @@ public class HomePageWithNav extends AppCompatActivity
             _context.startActivity(i);
         }
     }
-
     public boolean isLoggedIn() {
 
         return pref.getBoolean(IS_LOGIN, false);
     }
     private void checkUserExist() {
-
         final String user_id = mAuth.getCurrentUser().getUid();
         mDatabaseUsrRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -315,20 +294,12 @@ public class HomePageWithNav extends AppCompatActivity
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-
     }
     public void showToast(String message)
     {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();
     }
-
-
-
-
-
-
     private void prepareMovieData() {
         showToast("Preparing users data1");
         mDatabaseGrpRef.addValueEventListener(new ValueEventListener()
@@ -336,126 +307,17 @@ public class HomePageWithNav extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 showToast("Preparing users data2");
-
                 for (DataSnapshot groups : dataSnapshot.getChildren()){
                     if(groups.child("Users").hasChild(mUser.getUid())) {
                         Users_group_list.add(groups.getKey().toString());
                         movieList.add(new com.dcnproject.yashdani.chipin.Movie(groups.child("Name").getValue().toString()));
-
                     }
                 }
                 mAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
-
-
-
-        // notify adapter about data set changes
-        // so that it will render the list with new data
     }
-
 }
-
-/*
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseRecyclerAdapter<CardsViewGroups , cardViewHolder> firebaserecycleradapter = new FirebaseRecyclerAdapter<CardsViewGroups, cardViewHolder>(
-                CardsViewGroups.class,
-                R.layout.list_row_view_group,
-                cardViewHolder.class,
-                mDatabaseGrpRef
-        ) {
-
-            @Override
-            protected void populateViewHolder(final cardViewHolder viewHolder, final CardsViewGroups model, int position) {
-
-                getGroups();
-                viewHolder.setName(model.getName());
-
-                mDatabaseGrpRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        showToast("Getting datasnapshot " + groupList.size());
-                        if(iterator < groupList.size()) {
-                            viewHolder.setName(dataSnapshot.child(groupList.get(iterator++)).child("Name").getValue().toString());
-
-
-                        }
-
-                    }
-
-
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-
-
-
-
-
-
-            }
-        };
-        mList.setAdapter(firebaserecycleradapter);
-
-
-
-    }
-
-    public static class cardViewHolder extends RecyclerView.ViewHolder {
-        View mView;
-        TextView mGroup;
-
-
-        public cardViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-            mGroup = (TextView) mView.findViewById(R.id.groupNameEt);
-        }
-
-        public void setName(String name) {
-            TextView   mMember = (TextView) mView.findViewById(R.id.groupNameEt);
-            mMember.setText(name);
-
-        }
-
-
-    }
-
-
-
-    public void getGroups(){
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot groups: dataSnapshot.getChildren()){
-                    for(DataSnapshot users: groups.getChildren()){
-                        for(DataSnapshot emailid: users.getChildren()) {
-                            if (emailid.getValue() == current_user) {
-                                showToast("Group Found");
-                                groupList.add(dataSnapshot.getKey());
-                            }
-                        }
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }*/
-

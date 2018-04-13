@@ -179,11 +179,6 @@ public class AddTransactionWithNav extends AppCompatActivity
             startActivity(homeIntent);
             finish();
         }
-        else if (id == R.id.nav_add_balance) {
-            Intent logoutIntent = new Intent(getApplicationContext(),AddBalanceActivity.class);
-            startActivity(logoutIntent);
-            finish();
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -288,7 +283,7 @@ public class AddTransactionWithNav extends AppCompatActivity
                                     payeeList.add(payeeSnapshot.getValue().toString());
                                     payeeUIDList.add(payeeSnapshot.getKey());
                                     ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(AddTransactionWithNav.this, android.R.layout.simple_spinner_item, payeeList);
-                                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
                                     memberDropDown.setAdapter(adapter2);
                                     memberDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                         @Override
@@ -363,7 +358,7 @@ public class AddTransactionWithNav extends AppCompatActivity
                     payeeList.add(payeeSnapshot.getValue().toString());
                     payeeUIDList.add(payeeSnapshot.getKey());
                     ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(AddTransactionWithNav.this, android.R.layout.simple_spinner_item, payeeList);
-                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     memberDropDown.setAdapter(adapter2);
                     memberDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
@@ -416,7 +411,7 @@ public class AddTransactionWithNav extends AppCompatActivity
                             Users_group_list.add(groups.getKey().toString());
                             groupNames.add(groups.child("Name").getValue().toString());
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddTransactionWithNav.this, android.R.layout.simple_spinner_item, groupNames);
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                             groupDropDown.setAdapter(adapter);
                             groupDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
@@ -451,7 +446,7 @@ public class AddTransactionWithNav extends AppCompatActivity
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     groupNames.add(dataSnapshot.child("Name").getValue().toString());
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddTransactionWithNav.this, android.R.layout.simple_spinner_item, groupNames);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     groupDropDown.setAdapter(adapter);
                     groupDropDown.setEnabled(false);
                     populatePayeeDropDown();

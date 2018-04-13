@@ -21,19 +21,15 @@ public class AddBalanceActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private DatabaseReference mDatabase;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_balance);
         mAddBalance = (Button) findViewById(R.id.add_balance_button);
         mAmount = (EditText) findViewById(R.id.add_amoutn_Et);
-
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUid());
-
         mAddBalance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,16 +49,12 @@ public class AddBalanceActivity extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(),ProfileView.class));
                             finish();
                         }
-
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
             }
         });
-
     }
 }

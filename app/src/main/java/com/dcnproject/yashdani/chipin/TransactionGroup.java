@@ -9,33 +9,26 @@ public class TransactionGroup {
 
     public TransactionGroup() {
     }
-
     public TransactionGroup(String title, String genre, String year) {
         this.payee = title;
         this.desc = genre;
         this.amount = year;
     }
-
     public String getPayee() {
         return payee;
     }
-
     public void setPayee(String name) {
         this.payee = name;
     }
-
     public String getAmount() {
         return amount;
     }
-
     public void setAmount(String year) {
         this.amount = year;
     }
-
     public String getDesc() {
         return desc;
     }
-
     public void setDesc(String genre) {
         this.desc = genre;
     }
