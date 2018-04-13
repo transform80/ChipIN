@@ -184,6 +184,7 @@ public class AddTransactionWithNav extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     private void NewTransaction()
     {
         final String amount = mAmount.getText().toString();
