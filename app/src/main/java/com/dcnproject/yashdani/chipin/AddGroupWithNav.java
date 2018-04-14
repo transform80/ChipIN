@@ -191,6 +191,7 @@ public class AddGroupWithNav extends AppCompatActivity
         l = new LinearLayout(AddGroupWithNav.this);
         l.setOrientation(LinearLayout.VERTICAL);
         l.removeAllViewsInLayout();
+        l.setPadding(50,50,50,50);
         EditText ed;
         final List<EditText> allEds = new ArrayList<EditText>();
 
@@ -198,8 +199,10 @@ public class AddGroupWithNav extends AppCompatActivity
             ed = new EditText(AddGroupWithNav.this);
             ed.setHint("Username of participant "+ (i+1));
             allEds.add(ed);
+            ed.layout(20,20,20,20);
             ed.setTextColor(getResources().getColor(R.color.White));
             ed.setHintTextColor(getResources().getColor(R.color.White));
+            ed.setTextSize(15);
             ed.setBackgroundColor(getResources().getColor(R.color.trans));
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams(width, WindowManager.LayoutParams.WRAP_CONTENT);
             l.addView(ed,lp);

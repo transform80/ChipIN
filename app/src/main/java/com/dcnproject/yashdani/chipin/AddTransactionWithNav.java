@@ -364,7 +364,7 @@ public class AddTransactionWithNav extends AppCompatActivity
                     memberDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                            ((TextView) adapterView.getChildAt(0)).setTextColor(getResources().getColor(R.color.White));
                             payeeNameValue = adapterView.getItemAtPosition(i).toString();
                             payeeIndex = i;
                             Toast.makeText(AddTransactionWithNav.this, "Selected: " + payeeNameValue, Toast.LENGTH_SHORT).show();
