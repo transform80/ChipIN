@@ -25,7 +25,7 @@
         <activity android:name=".RegisterActivity" />
         <activity
             android:name=".HomePageWithNav"
-            android:label="Your Groups"
+            android:label="Chip IN"
             android:theme="@style/AppTheme.NoActionBar"
             android:icon="@drawable/chipin_logo1"/>
         <activity
@@ -48,6 +48,7 @@
             android:label="Group Name" />
         <activity
             android:name=".ViewContactInGroup"
+            android:label="Participants"
             android:icon="@drawable/chipin_logo1" />
         <activity
             android:name=".AddMemberInGroup"

@@ -10,8 +10,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:background="@drawable/gradient"
         android:layout_height="match_parent"
         android:orientation="vertical">
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        android:text="Your Groups"
+        android:textColor="#fff"
+        android:textAlignment="center"
+        android:layout_marginTop="3dp"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="2dp"/>
 
         <include layout="@layout/activity_rec_main"/>
     </LinearLayout>
