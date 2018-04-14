@@ -315,15 +315,9 @@ public class HomePageWithNav extends AppCompatActivity
                 }
                 mAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
-        // notify adapter about data set changes
-        // so that it will render the list with new data
     }
-
 }

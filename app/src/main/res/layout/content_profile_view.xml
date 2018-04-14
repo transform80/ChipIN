@@ -14,7 +14,7 @@
         android:background="@drawable/gradient"
         android:orientation="vertical">
 
-        <ImageButton
+      <!--  <ImageButton
             android:id="@+id/profilePicButton"
             android:layout_width="130dp"
             android:layout_height="130dp"
@@ -22,7 +22,22 @@
             android:layout_marginStart="115dp"
             android:textAlignment="center"
             app:srcCompat="@mipmap/ic_person_white_36dp"
-            android:background="@drawable/profile_view_image"
+            android:background="@drawable/custom_button"
+            android:layout_marginTop="20dp"/>-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profileImageView"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="115dp"
+            android:textAlignment="center"
+            app:srcCompat="@mipmap/ic_person_white_36dp"
+            android:background="@drawable/custom_button"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"
+            android:clickable="true"
+            android:onClick="setImage"
             android:layout_marginTop="20dp"/>
 
         <TextView
@@ -32,7 +47,7 @@
             android:layout_centerHorizontal="true"
             android:hint="Name"
             android:textColorHint="#fff"
-            android:layout_below="@+id/profilePicButton"
+            android:layout_below="@+id/profileImageView"
             android:textSize="30sp"
             android:layout_marginTop="15dp"
             android:textAlignment="center"

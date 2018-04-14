@@ -38,11 +38,13 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private ImageButton mProfileImage;
     private Uri mImgU = null;
     private TextView mName, mEmail;
+    private de.hdodenhof.circleimageview.CircleImageView mProfileImage;
 
     List<String> Users_group_list = new ArrayList<>();
     List<String> GUID_List = new ArrayList<>();
@@ -94,6 +96,7 @@ public class ProfileView extends AppCompatActivity
         UID = mUser.getUid();
         mDatabase1 = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
         mStorage  = FirebaseStorage.getInstance().getReference().child("ProfilePictures");
+        mProfileImage = (CircleImageView) findViewById(R.id.profileImageView);
 
         mTransProfileAdapter = new TransactionProfileCardsAdapter(transactionProfileCardsList);
 
@@ -141,7 +144,6 @@ public class ProfileView extends AppCompatActivity
             }
         }));
 
-        mProfileImage =(ImageButton) findViewById(R.id.profilePicButton);
 
 
 
@@ -172,16 +174,16 @@ public class ProfileView extends AppCompatActivity
             }
         });
 
-                mProfileImage.setOnClickListener(new View.OnClickListener() {
+                /*mProfileImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                        galleryIntent.setType("image/*");
+                        galleryIntent.setType("image*//*");
                         startActivityForResult(galleryIntent,GALLERY_REQUEST);
 
 
                     }
-                });
+                });*/
 
 
 
@@ -312,7 +314,12 @@ public class ProfileView extends AppCompatActivity
                         public void onDataChange(DataSnapshot names) {
                             String user_name = names.child("name").getValue().toString();
                             Users_uid.add(name);
-                            transactionProfileCardsList.add(new TransactionProfileCards(user_name,trans,"₹"+amount));
+                            String disp_amount = amount;
+                            if(disp_amount.startsWith("-"))
+                                disp_amount = "₹" + disp_amount.substring(1);
+                            else
+                                disp_amount = "₹" + amount;
+                            transactionProfileCardsList.add(new TransactionProfileCards(user_name,trans,disp_amount));
                             mTransProfileAdapter.notifyDataSetChanged();
 
 
@@ -398,5 +405,12 @@ public class ProfileView extends AppCompatActivity
     {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    public void setImage(View view) {
+        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        startActivityForResult(galleryIntent,GALLERY_REQUEST);
+
     }
 }

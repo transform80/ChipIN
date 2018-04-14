@@ -49,6 +49,17 @@ public class GroupView extends AppCompatActivity {
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
         mDatabaseTransRef = FirebaseDatabase.getInstance().getReference().child("Transactions");
+        mDatabaseGrpRef.child(GUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                setTitle(dataSnapshot.child("Name").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         mAddTrans = (FloatingActionButton) findViewById(R.id.fab);
         mAddTrans.setOnClickListener(new View.OnClickListener() {
             @Override

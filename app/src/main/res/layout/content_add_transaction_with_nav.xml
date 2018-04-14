@@ -121,7 +121,7 @@
             android:textStyle="bold"
             android:layout_below="@id/amountEt"
             android:layout_marginTop="18sp"
-            android:textColor="#ffffff"
+            android:textColor="#bbc"
             android:textSize="22sp"
             />
 
