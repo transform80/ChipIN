@@ -1,13 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/gradient"
+    app:cardBackgroundColor="@android:color/transparent"
+    android:layout_margin="0dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/row_padding_vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/row_padding_vertical">
+
+            <TextView
+                android:id="@+id/profilePayee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/title"
+                android:textSize="16dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/profileDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:layout_below="@id/profilePayee" />
+
+            <TextView
+                android:id="@+id/profileAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:textColor="#fff"
+                android:text="Rs."/>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#3a7079"
+        android:background="@color/colorAccent"
         android:clickable="true"
         android:focusable="true"
+        android:layout_margin="4dp"
         android:orientation="vertical"
         android:paddingBottom="@dimen/row_padding_vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -15,19 +68,11 @@
         android:paddingTop="@dimen/row_padding_vertical">
 
         <TextView
-            android:layout_width="50dp"
-            android:layout_height="42dp"
-            android:id="@+id/debt"
-            android:text="Give"
-            android:textAlignment="center"
-            android:textColor="#fff"/>
-        <TextView
             android:id="@+id/profilePayee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:textColor="@color/title"
-            android:layout_toEndOf="@+id/debt"
             android:textSize="16dp"
             android:textStyle="bold"/>
 
@@ -35,8 +80,6 @@
             android:id="@+id/profileDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/debt"
-            android:layout_alignBottom="@+id/debt"
             android:textColor="#fff"
             android:layout_below="@id/profilePayee" />
 
@@ -44,9 +87,9 @@
             android:id="@+id/profileAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:textColor="#fff"
             android:text="Rs."/>
 
     </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>-->

@@ -109,6 +109,7 @@ public class GroupView extends AppCompatActivity {
                         String name = trans.child("Payee").getValue().toString();
                         String Reason = trans.child("Payment Description").getValue().toString();
                         String TotalAmount = trans.child("Total Amount").getValue().toString();
+                        TotalAmount = "₹" + TotalAmount;
                         transactionGroupList.add(new TransactionGroup(name,Reason,TotalAmount));
                     } catch (Exception e) {
                         e.printStackTrace();

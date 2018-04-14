@@ -66,6 +66,7 @@
             android:layout_marginTop="10dp"
             android:drawableLeft="@mipmap/ic_lock_outline_white_24dp"
             android:ems="10"
+            android:textSize="16dp"
             android:hint="Password"
             android:inputType="textPassword"
             android:textColor="#ffffff"

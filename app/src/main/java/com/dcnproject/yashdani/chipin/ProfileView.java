@@ -267,7 +267,7 @@ public class ProfileView extends AppCompatActivity
                         {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                showToast("Adding groups tarms");
+                                showToast("Adding groups tarns");
                                 for (DataSnapshot trans : dataSnapshot.getChildren()) {
                                     try {
                                         Groups_Transactions.add(trans.getKey().toString());
@@ -312,7 +312,7 @@ public class ProfileView extends AppCompatActivity
                         public void onDataChange(DataSnapshot names) {
                             String user_name = names.child("name").getValue().toString();
                             Users_uid.add(name);
-                            transactionProfileCardsList.add(new TransactionProfileCards(user_name,trans,amount));
+                            transactionProfileCardsList.add(new TransactionProfileCards(user_name,trans,"₹"+amount));
                             mTransProfileAdapter.notifyDataSetChanged();
 
 

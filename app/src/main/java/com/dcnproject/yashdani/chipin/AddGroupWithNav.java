@@ -199,6 +199,7 @@ public class AddGroupWithNav extends AppCompatActivity
             ed.setHint("Username of participant "+ (i+1));
             allEds.add(ed);
             ed.setTextColor(getResources().getColor(R.color.White));
+            ed.setHintTextColor(getResources().getColor(R.color.White));
             ed.setBackgroundColor(getResources().getColor(R.color.trans));
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams(width, WindowManager.LayoutParams.WRAP_CONTENT);
             l.addView(ed,lp);

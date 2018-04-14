@@ -25,12 +25,13 @@
         <activity android:name=".RegisterActivity" />
         <activity
             android:name=".HomePageWithNav"
-            android:label="Home Page"
+            android:label="Your Groups"
             android:theme="@style/AppTheme.NoActionBar"
             android:icon="@drawable/chipin_logo1"/>
         <activity
             android:name=".AddTransactionWithNav"
             android:theme="@style/AppTheme.NoActionBar"
+            android:label="Add Transaction"
             android:icon="@drawable/chipin_logo1"/>
         <activity
             android:name=".AddGroupWithNav"

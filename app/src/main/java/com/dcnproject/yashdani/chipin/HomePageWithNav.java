@@ -177,7 +177,11 @@ public class HomePageWithNav extends AppCompatActivity
             }
         });
         }
-        prepareMovieData();
+        if (mAuth.getCurrentUser() != null)
+        {
+            prepareMovieData();
+
+        }
 
 
     }
@@ -285,8 +289,6 @@ public class HomePageWithNav extends AppCompatActivity
                     Intent mainIntent = new Intent(HomePageWithNav.this, LoginActivity.class);
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(mainIntent);
-
-                    //Toast.makeText(MainActivity.this, "Logged in", Toast.LENGTH_LONG).show();
                     finish();
                 }
             }
@@ -301,12 +303,10 @@ public class HomePageWithNav extends AppCompatActivity
         toast.show();
     }
     private void prepareMovieData() {
-        showToast("Preparing users data1");
         mDatabaseGrpRef.addValueEventListener(new ValueEventListener()
         {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                showToast("Preparing users data2");
                 for (DataSnapshot groups : dataSnapshot.getChildren()){
                     if(groups.child("Users").hasChild(mUser.getUid())) {
                         Users_group_list.add(groups.getKey().toString());
@@ -315,9 +315,15 @@ public class HomePageWithNav extends AppCompatActivity
                 }
                 mAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
+
+        // notify adapter about data set changes
+        // so that it will render the list with new data
     }
+
 }

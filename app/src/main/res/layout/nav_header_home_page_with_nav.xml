@@ -18,7 +18,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@drawable/circle_profile" />
+        android:scaleType="centerCrop"
+        android:background="@drawable/custom_button"/>
 
     <TextView
         android:layout_width="match_parent"

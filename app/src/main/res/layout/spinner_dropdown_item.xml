@@ -3,8 +3,12 @@
     android:id="@android:id/text1"
     style="?android:attr/spinnerDropDownItemStyle"
     android:singleLine="true"
-    android:background="@color/trans"
+    android:background="@drawable/gradient"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:ellipsize="marquee"
+    android:textColorLink="#fff"
+    android:shadowColor="#fff"
+    android:textColorHint="#fff"
+    android:textSize="20sp"
     android:textColor="#fff"/>

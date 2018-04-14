@@ -3,47 +3,49 @@
     android:id="@+id/popwindow"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:layout_margin="4dp"
+    android:background="@color/colorHighlightG">
 
     <TextView
         android:id="@+id/payee_details"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="9dp"
+        android:layout_marginStart="46dp"
         android:layout_marginTop="10dp"
         android:text="Do you want to Pay?"
         android:textColor="#ffffff"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="56dp"
         android:layout_marginTop="60dp"
-        android:background="#679873"
+        android:background="@color/colorHighlightG"
         android:shadowColor="#ffffff"
         android:shadowDx="10"
         android:text="cancel"
+        android:textSize="15sp"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textColor="#000000" />
+        android:textColor="#fff"
+        android:textStyle="bold"/>
 
     <Button
         android:id="@+id/pay_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="170dp"
-        android:layout_marginStart="160dp"
+        android:layout_marginStart="166dp"
         android:layout_marginTop="60dp"
-        android:background="#679873"
+        android:background="@color/colorHighlightG"
+        android:textSize="15sp"
+        android:textStyle="bold"
         android:shadowColor="#ffffff"
         android:shadowDx="10"
         android:text="Yes"
         android:textAllCaps="true"
-        android:textColor="#000000" />
+        android:textColor="#fff" />
 
 </RelativeLayout>

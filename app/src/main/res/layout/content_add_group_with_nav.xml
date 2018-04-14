@@ -34,13 +34,12 @@ android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="30sp"
         android:layout_weight="1"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:textColor="#fff"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:drawableLeft="@mipmap/ic_forum_white_36dp"
         android:textColorHint="#fff"
-        android:hint="Group Name"
-        android:textAlignment="center"
+        android:hint="   Group Name"
         android:background="#11000000"/>
 </LinearLayout>
 
@@ -54,7 +53,7 @@ android:orientation="horizontal"
             android:layout_width="261dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:text="No. of Members"
             android:textColor="#fff"
@@ -64,25 +63,24 @@ android:orientation="horizontal"
 
         <EditText
             android:id="@+id/numEt"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_width="fill_parent"
             android:layout_marginTop="18dp"
             android:layout_height="30sp"
             android:textColorHint="#fff"
-            android:drawableLeft="@mipmap/ic_group_white_36dp"
-            android:textSize="15sp"
+            android:drawableStart="@mipmap/ic_group_white_36dp"
+            android:textSize="16sp"
             android:background="#11000000"
             android:textColor="#fff"
             android:layout_weight="1"
-            android:textAlignment="center"
-            android:hint="Enter No. of Members" />
+            android:hint="   Enter No. of Members" />
     </LinearLayout>
 
 
 <Button
 android:id="@+id/confirm_btn"
 android:layout_width="150dp"
-    android:layout_marginLeft="120dp"
+    android:layout_marginStart="120dp"
 android:layout_marginTop="20dp"
 android:layout_height="50dp"
     android:textColor="#fff"
