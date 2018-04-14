@@ -18,6 +18,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Yash Dani on 29-03-2018.
  */
@@ -27,17 +29,17 @@ public class ContactCardsAdapter extends RecyclerView.Adapter<ContactCardsAdapte
     private List<ContactCards> contactList;
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name, email;
-        public ImageView display;
+        public CircleImageView display;
         View itemView;
         public MyViewHolder(View view) {
             super(view);
             itemView = view;
             name = (TextView) view.findViewById(R.id.name);
             email = (TextView) view.findViewById(R.id.email);
-            display = (ImageView) view.findViewById(R.id.contactImage);
+            display = (CircleImageView) view.findViewById(R.id.contactImage);
         }
         public void setImageUrl(final Context ctx, final String image){
-            final ImageView display = (ImageView) itemView.findViewById(R.id.contactImage);
+            final CircleImageView display = (CircleImageView) itemView.findViewById(R.id.contactImage);
             Picasso.with(ctx).load(image).networkPolicy(NetworkPolicy.OFFLINE).into(display, new Callback() {
                 @Override
                 public void onSuccess() {

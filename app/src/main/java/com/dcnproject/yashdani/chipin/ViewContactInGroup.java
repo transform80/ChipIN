@@ -78,7 +78,6 @@ public class ViewContactInGroup extends AppCompatActivity {
                             String email = users.child("email").getValue().toString();
                             String ImageUrl = users.child("image").getValue().toString();
                             contactCardsList.add(new ContactCards(name, email, ImageUrl));
-                            showToast(String.valueOf(contactCardsList.size()));
                             mContactAdapter.notifyDataSetChanged();
                         }
                         @Override
