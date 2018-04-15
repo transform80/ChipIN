@@ -181,7 +181,14 @@ public class AddGroupWithNav extends AppCompatActivity
     public void addGroup(){
         confirm.setEnabled(false);
 
-        final int num = Integer.parseInt(numOfMembers.getText().toString());
+        int num_members = 0;
+        try {
+            num_members = Integer.parseInt(numOfMembers.getText().toString());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        final int num = num_members;
+
         // Dynamically creates the various text fields for the entry of the participants name
         final LinearLayout ll = (LinearLayout) findViewById(R.id.groupLL);
         Display display = ((WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -243,7 +250,7 @@ public class AddGroupWithNav extends AppCompatActivity
                                 finish();
                             }
                             else
-                                showToast("No user entry since UID = " + finalUID);
+                                showToast("User does not exist");
                         }
 
                         @Override
