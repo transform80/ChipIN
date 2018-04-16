@@ -1,5 +1,4 @@
 package com.dcnproject.yashdani.chipin;
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -29,9 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class GroupView extends AppCompatActivity {
-
     private RecyclerView mList;
     private String GUID ;
     List<String> Groups_Transactions = new ArrayList<>();
@@ -54,10 +51,8 @@ public class GroupView extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 setTitle(dataSnapshot.child("Name").getValue().toString());
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
         mAddTrans = (FloatingActionButton) findViewById(R.id.fab);
@@ -72,41 +67,21 @@ public class GroupView extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new TransactionGroupAdapter(transactionGroupList);
         recyclerView.setHasFixedSize(true);
-        // vertical RecyclerView
-        // keep movie_list_row.xml width to `match_parent`
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        // horizontal RecyclerView
-        // keep movie_list_row.xml width to `wrap_content`
         recyclerView.setLayoutManager(mLayoutManager);
-
-        // adding inbuilt divider line
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-
-        // adding custom divider line with padding 16dp
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
         recyclerView.setAdapter(mAdapter);
-
-        // row click listener
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 TransactionGroup transactionGroup = transactionGroupList.get(position);
             }
-
             @Override
             public void onLongClick(View view, int position) {
-
             }
         }));
-
-        prepareTransactionData();
-
-
-    }
-
-
-
+        prepareTransactionData();}
     private void prepareTransactionData() {
 
         mDatabaseTransRef.orderByChild("GUID").equalTo(GUID).addValueEventListener(new ValueEventListener()
@@ -140,14 +115,12 @@ public class GroupView extends AppCompatActivity {
             }
         });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
-    //and this to handle actions
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -161,14 +134,11 @@ public class GroupView extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public void showToast(String message)
-    {
+    public void showToast(String message) {
 
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
 
         toast.show();
 
     }
-
 }

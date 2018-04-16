@@ -1,5 +1,4 @@
 package com.dcnproject.yashdani.chipin;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -35,7 +34,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class AddGroupWithNav extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private EditText groupName,numOfMembers;
@@ -239,7 +237,6 @@ public class AddGroupWithNav extends AppCompatActivity
                     final String uName = strings[i];
 
                     // Receiving the UID of the user from the given name
-                    showToast("Getting UID");
                     mDatabaseUsrRef.orderByChild("email").equalTo(uName).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -293,5 +290,4 @@ public class AddGroupWithNav extends AppCompatActivity
 
 
     }
-
 }

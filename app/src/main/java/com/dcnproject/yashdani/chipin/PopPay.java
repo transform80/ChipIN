@@ -41,12 +41,9 @@ public class PopPay extends Activity {
         mPayeeDetails.setText("Pay " + amount_float + " to " + name);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-
         double width = dm.widthPixels;
         double height = dm.heightPixels;
-
         getWindow().setLayout((int)(width*.8),(int)(height*.23));
-
         cancel_delete = (Button) findViewById(R.id.cancel_button);
         cancel_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +52,6 @@ public class PopPay extends Activity {
                 finish();
             }
         });
-
         yes_delete = (Button) findViewById(R.id.pay_button);
         yes_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,13 +70,10 @@ public class PopPay extends Activity {
                             toast.show();
                         }
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
-
             }
         });
     }

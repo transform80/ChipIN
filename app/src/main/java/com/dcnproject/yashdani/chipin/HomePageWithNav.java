@@ -1,5 +1,4 @@
 package com.dcnproject.yashdani.chipin;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,7 +40,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class HomePageWithNav extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth mAuth;
@@ -64,7 +62,6 @@ public class HomePageWithNav extends AppCompatActivity
     List<String> groupList = new ArrayList<>();
     int iterator = 0;
     private String current_user;
-    // Shared pref mode
     int PRIVATE_MODE = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,65 +86,36 @@ public class HomePageWithNav extends AppCompatActivity
         mUser = mAuth.getCurrentUser();
         if(mUser != null)
             current_user = mUser.getEmail();
-
         mDatabaseUsrRef= FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseGrpRef = FirebaseDatabase.getInstance().getReference().child("Groups");
         mDatabaseTransRef = FirebaseDatabase.getInstance().getReference().child("Transaction");
-
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
         mAdapter = new MoviesAdapter(movieList);
-
         recyclerView.setHasFixedSize(true);
-
-        // vertical RecyclerView
-        // keep movie_list_row.xml width to `match_parent`
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-
-        // horizontal RecyclerView
-        // keep movie_list_row.xml width to `wrap_content`
         recyclerView.setLayoutManager(mLayoutManager);
-
-        // adding inbuilt divider line
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-
-        // adding custom divider line with padding 16dp
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
         recyclerView.setAdapter(mAdapter);
-
-        // row click listener
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Intent group = new Intent(HomePageWithNav.this,GroupView.class);
-
                 group.putExtra("GUID",Users_group_list.get(position));
                 startActivity(group);
-
                 com.dcnproject.yashdani.chipin.Movie movie = movieList.get(position);
-
             }
-
             @Override
             public void onLongClick(View view, int position) {
-
             }
         }));
-
-
-
-
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = pref.edit();
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
@@ -170,22 +138,16 @@ public class HomePageWithNav extends AppCompatActivity
                     Picasso.with(getApplicationContext()).load(dataSnapshot.child("image").getValue().toString()).into(mProfileImage);
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
         }
         if (mAuth.getCurrentUser() != null)
         {
             prepareMovieData();
-
         }
-
-
     }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -208,30 +170,18 @@ public class HomePageWithNav extends AppCompatActivity
             }, 2000);
         }
     }
-
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_group) {
             Intent addgroupIntent = new Intent(HomePageWithNav.this,AddGroupWithNav.class);
             startActivity(addgroupIntent);
@@ -246,14 +196,12 @@ public class HomePageWithNav extends AppCompatActivity
             startActivity(logoutIntent);
             finish();
         } else if (id == R.id.nav_home) {
-
         }
         else if (id == R.id.nav_add_balance) {
             Intent logoutIntent = new Intent(getApplicationContext(),AddBalanceActivity.class);
             startActivity(logoutIntent);
             finish();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
